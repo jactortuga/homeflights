@@ -1,0 +1,36 @@
+{
+  "name": "homeflights",
+  "version": "1.0.0",
+  "description": "Visualising flight data for the UK Home Office and its agencies",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jactortuga/homeflights.git"
+  },
+  "author": "Jac Prada",
+  "dependencies": {
+    "angular": "^1.6.7",
+    "angular-animate": "^1.6.7",
+    "angular-aria": "^1.6.7",
+    "angular-material": "^1.1.5",
+    "angular-ui-router": "^0.4.3"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "browserify": "^14.5.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-environments": "^0.1.2",
+    "gulp-jshint": "^2.0.4",
+    "gulp-minify": "2.1.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0",
+    "jshint": "^2.9.5",
+    "preprocess": "^3.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
