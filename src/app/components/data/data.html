@@ -1,6 +1,7 @@
 <div ui-view="header"></div>
 <div ng-controller="dataCtrl as data">
 	<h1 ng-bind="data.dataText"></h1>
+	<dots-chart></dots-chart>
 	<bars-chart data="'Departure_2011'"></bars-chart>
 	<bars-chart data="'Supplier_name'"></bars-chart>
 	<bars-chart data="'Directorate'"></bars-chart>

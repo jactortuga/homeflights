@@ -54,3 +54,18 @@ body {
     /* NEW */
     text-align: center;
     /* NEW */ }
+  body circle {
+    stroke: #333;
+    stroke-width: 1; }
+  body dots-chart .axis path,
+  body dots-chart .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges; }
+  body dots-chart .dot {
+    stroke: #000; }
+  body dots-chart .tooltip {
+    position: absolute;
+    width: 200px;
+    height: 28px;
+    pointer-events: none; }
