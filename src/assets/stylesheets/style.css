@@ -23,7 +23,8 @@ body {
     margin: 0 auto;
     /* NEW */
     position: relative;
-    width: 360px; }
+    width: 360px;
+    display: inline-block; }
   body .tooltip {
     background: #eee;
     box-shadow: 0 0 5px #999999;
