@@ -1,4 +1,7 @@
 angular.module('myApp.home', [])
+
 .controller('homeCtrl',[function(){
-	this.welcomeText = 'Welcome to HomeFlights';
+  this.title 				= 'HomeFlights';
+  this.description 	= 'Visualising flight data for the UK Home Office and its agencies.';
+  this.action 			= 'Explore';
 }]);

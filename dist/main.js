@@ -79862,47 +79862,52 @@ require('angular-aria');
 require('angular-animate');
 require('angular-material');
 require('./components/home/home.js');
-require('./components/about/about.js');
+require('./components/data/data.js');
 
-var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.about']);
+var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
-	
-	$urlRouterProvider.otherwise("/");
-	
+	$urlRouterProvider.otherwise('/');
+
 	$stateProvider
 	.state('home', {
-		url: "/",
-		views : {
-			"" : {
-				templateUrl:"app/components/home/home.html"
+		url: '/',
+		views: {
+			'' : {
+				templateUrl: 'app/components/home/home.html'
 			},
-			"header@home":{
-				templateUrl:"app/shared/header/header.html"
+			'header@home': {
+				templateUrl: 'app/shared/header/header.html'
 			}
 		}
 	})
-	.state('about', {
-		url: "/about",
-		views : {
-			"" : {
-				templateUrl:"app/components/about/about.html"
+
+	.state('data', {
+    url: '/data',
+		views: {
+			'': {
+				templateUrl: 'app/components/data/data.html'
 			},
-			"header@about":{
-				templateUrl:"app/shared/header/header.html"
+			'header@data': {
+				templateUrl: 'app/shared/header/header.html'
 			}
 		}
-	});
+  });
 });
-},{"./components/about/about.js":11,"./components/home/home.js":12,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
-angular.module('myApp.about', [])
-.controller('aboutCtrl',[function(){
-	this.aboutText = 'This is the about component!';
+
+},{"./components/data/data.js":11,"./components/home/home.js":12,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
+angular.module('myApp.data', [])
+.controller('dataCtrl',[function(){
+	this.dataText = 'This is the data component!';
 }]);
+
 },{}],12:[function(require,module,exports){
 angular.module('myApp.home', [])
+
 .controller('homeCtrl',[function(){
-	this.welcomeText = 'Welcome to HomeFlights';
+  this.title 				= 'HomeFlights';
+  this.description 	= 'Visualising flight data for the UK Home Office and its agencies.';
+  this.action 			= 'Explore';
 }]);
 
 },{}]},{},[10]);

@@ -1,4 +1,6 @@
 <div ui-view="header"></div>
 <div ng-controller="homeCtrl as home">
-	<h1 ng-bind="home.welcomeText"></h1>
+	<h1 ng-bind="home.title"></h1>
+	<p ng-bind="home.description"></p>
+	<a ui-sref="data">{{ home.action }}</a>
 </div>
