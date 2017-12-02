@@ -1,8 +1,10 @@
 <div ui-view="header"></div>
 <div ng-controller="dataCtrl as data">
 	<h1 ng-bind="data.dataText"></h1>
-	<bars-chart chart-data="40,100,80,15,25,60,10"></bars-chart>
-	<svg pie-chart width="960" height="500">
-
-	</svg>
+	<bars-chart data="'Departure_2011'"></bars-chart>
+	<bars-chart data="'Supplier_name'"></bars-chart>
+	<bars-chart data="'Directorate'"></bars-chart>
+	<pie-chart data="'Departure'"></pie-chart>
+	<pie-chart data="'Destination'"></pie-chart>
+	<pie-chart data="'Ticket_class_description'"></pie-chart>
 </div>

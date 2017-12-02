@@ -2,7 +2,9 @@ angular.module('myApp.d3Directives', ['d3'])
 .directive('barsChart', ['d3Service', function(d3Service) {
   return {
     restrict: 'E',
-    scope: {},
+    scope: {
+      data: '='
+    },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
 
@@ -10,7 +12,7 @@ angular.module('myApp.d3Directives', ['d3'])
           console.log(data);
 
           var expensesCount = d3.nest()
-            .key(function(d) { return d.Departure_2011; })
+            .key(function(d) { return d[scope.data]; })
             .rollup(function(v) { return v.length; })
             .entries(data);
             console.log(expensesCount);
@@ -43,50 +45,82 @@ angular.module('myApp.d3Directives', ['d3'])
 
 .directive('pieChart', ['d3Service', function(d3Service) {
   return {
-    restrict: 'EA',
-    scope: {},
+    restrict: 'E',
+    scope: {
+      data: '='
+    },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
 
-        var svg = d3.select(element[0]),
-        width = +svg.attr("width"),
-        height = +svg.attr("height"),
-        radius = Math.min(width, height) / 2,
-        g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+        d3.csv('./assets/dataset/home_office_air_travel_data_2011.csv', function(data){
+          console.log(data);
 
-        var pie = d3.pie()
-        .sort(null)
-        .value(function(d) { return d.population; });
+          var expensesCount = d3.nest()
+            .key(function(d) { return d[scope.data]; })
+            .rollup(function(v) { return v.length; })
+            .entries(data);
+            console.log(expensesCount);
 
-        var path = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(0);
+            var dataset = expensesCount;
 
-        var label = d3.arc()
-        .outerRadius(radius - 40)
-        .innerRadius(radius - 40);
+            var width = 360;
+            var height = 360;
+            var radius = Math.min(width, height) / 2;
+            var color = d3.scaleOrdinal(d3.schemeCategory20b);
+            var legendRectSize = 18;
+            var legendSpacing = 4;
+            var svg = d3.select(element[0])
+              .append('svg')
+              .attr('width', width)
+              .attr('height', height)
+              .append('g')
+              .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
 
-        d3.csv('./assets/dataset/home_office_air_travel_data_2011.csv', function(d) {
-          // console.log(d)
-          return d;
-        }, function(error, data) {
-          // if (error) throw error;
+            var arc = d3.arc()
+              .innerRadius(0)
+              .outerRadius(radius);
 
-          // var arc = g.selectAll(".arc")
-          //   .data(pie(data))
-          //   .enter().append("g")
-          //     .attr("class", "arc");
-          //
-          // arc.append("path")
-          //     .attr("d", path)
-          //     .attr("fill", function(d) { return color(d.data.age); });
-          //
-          // arc.append("text")
-          //     .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-          //     .attr("dy", "0.35em")
-          //     .text(function(d) { return d.data.age; });
+            var pie = d3.pie()
+              .value(function(d) { return d.value; })
+              .sort(null);
+
+            var path = svg.selectAll('path')
+              .data(pie(dataset))
+              .enter()
+              .append('path')
+              .attr('d', arc)
+              .attr('fill', function(d) {
+                return color(d.data.key);
+              });
+
+            var legend = svg.selectAll('.legend')                     // NEW
+              .data(color.domain())                                   // NEW
+              .enter()                                                // NEW
+              .append('g')                                            // NEW
+              .attr('class', 'legend')                                // NEW
+              .attr('transform', function(d, i) {                     // NEW
+                var height = legendRectSize + legendSpacing;          // NEW
+                var offset =  height * color.domain().length / 2;     // NEW
+                var horz = -2 * legendRectSize;                       // NEW
+                var vert = i * height - offset;                       // NEW
+                return 'translate(' + horz + ',' + vert + ')';        // NEW
+              });                                                     // NEW
+            legend.append('rect')                                     // NEW
+              .attr('width', legendRectSize)                          // NEW
+              .attr('height', legendRectSize)                         // NEW
+              .style('fill', color)                                   // NEW
+              .style('stroke', color);                                // NEW
+            legend.append('text')                                     // NEW
+              .attr('x', legendRectSize + legendSpacing)              // NEW
+              .attr('y', legendRectSize - legendSpacing)              // NEW
+              .text(function(d) { return d; });                       // NEW
+
+
+
+
+
+
         });
       });
     }};
