@@ -18,7 +18,8 @@ angular.module('myApp.d3Directives', ['d3'])
             console.log(expensesCount);
 
             //converting all data passed thru into an array
-            var data = expensesCount;
+            var data      = expensesCount;
+            var maxValue  = Math.max.apply(Math,data.map(function(o){return o.value;}))
             //in D3, any selection[0] contains the group
             //selection[0][0] is the DOM node
             //but we won't need that this time
@@ -31,7 +32,7 @@ angular.module('myApp.d3Directives', ['d3'])
             .data(data).enter()
               .append("div")
               .transition()
-              .style("width", function(d) { return d.value + "px"; })
+              .style("width", function(d) { return (d.value / maxValue * 100) + "%"; })
               .text(function(d) { return d.key + ': ' + d.value; });
             //a little of magic: setting it's width based
             //on the data value (d)
@@ -62,14 +63,70 @@ angular.module('myApp.d3Directives', ['d3'])
             .entries(data);
             console.log(expensesCount);
 
-            var dataset = expensesCount;
+          var dataset = expensesCount;
+
+            // var width = 360;
+            // var height = 360;
+            // var radius = Math.min(width, height) / 2;
+            // var color = d3.scaleOrdinal(d3.schemeCategory20b);
+            // var legendRectSize = 18;
+            // var legendSpacing = 4;
+            // var svg = d3.select(element[0])
+            //   .append('svg')
+            //   .attr('width', width)
+            //   .attr('height', height)
+            //   .append('g')
+            //   .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+            //
+            // var arc = d3.arc()
+            //   .innerRadius(0)
+            //   .outerRadius(radius);
+            //
+            // var pie = d3.pie()
+            //   .value(function(d) { return d.value; })
+            //   .sort(null);
+            //
+            // var path = svg.selectAll('path')
+            //   .data(pie(dataset))
+            //   .enter()
+            //   .append('path')
+            //   .attr('d', arc)
+            //   .attr('fill', function(d) {
+            //     return color(d.data.key);
+            //   });
+            //
+            // var legend = svg.selectAll('.legend')                     // NEW
+            //   .data(color.domain())                                   // NEW
+            //   .enter()                                                // NEW
+            //   .append('g')                                            // NEW
+            //   .attr('class', 'legend')                                // NEW
+            //   .attr('transform', function(d, i) {                     // NEW
+            //     var height = legendRectSize + legendSpacing;          // NEW
+            //     var offset =  height * color.domain().length / 2;     // NEW
+            //     var horz = -2 * legendRectSize;                       // NEW
+            //     var vert = i * height - offset;                       // NEW
+            //     return 'translate(' + horz + ',' + vert + ')';        // NEW
+            //   });                                                     // NEW
+            // legend.append('rect')                                     // NEW
+            //   .attr('width', legendRectSize)                          // NEW
+            //   .attr('height', legendRectSize)                         // NEW
+            //   .style('fill', color)                                   // NEW
+            //   .style('stroke', color);                                // NEW
+            // legend.append('text')                                     // NEW
+            //   .attr('x', legendRectSize + legendSpacing)              // NEW
+            //   .attr('y', legendRectSize - legendSpacing)              // NEW
+            //   .text(function(d) { return d; });                       // NEW
+
+
+
 
             var width = 360;
             var height = 360;
             var radius = Math.min(width, height) / 2;
-            var color = d3.scaleOrdinal(d3.schemeCategory20b);
+            var donutWidth = 75;
             var legendRectSize = 18;
             var legendSpacing = 4;
+            var color = d3.scaleOrdinal(d3.schemeCategory20b);
             var svg = d3.select(element[0])
               .append('svg')
               .attr('width', width)
@@ -78,50 +135,106 @@ angular.module('myApp.d3Directives', ['d3'])
               .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
 
             var arc = d3.arc()
-              .innerRadius(0)
+              .innerRadius(radius - donutWidth)
               .outerRadius(radius);
 
             var pie = d3.pie()
               .value(function(d) { return d.value; })
               .sort(null);
 
+            var tooltip = d3.select('#chart')
+              .append('div')
+              .attr('class', 'tooltip');
+
+            tooltip.append('div')
+              .attr('class', 'key');
+
+            tooltip.append('div')
+              .attr('class', 'value');
+
+            tooltip.append('div')
+              .attr('class', 'percent');
+
             var path = svg.selectAll('path')
               .data(pie(dataset))
               .enter()
               .append('path')
               .attr('d', arc)
-              .attr('fill', function(d) {
+              .attr('fill', function(d, i) {
                 return color(d.data.key);
+              })                                                        // UPDATED (removed semicolon)
+              .each(function(d) { this._current = d; });                // NEW
+              path.on('mouseover', function(d) {
+                var total = d3.sum(dataset.map(function(d) {
+                  return (d.enabled) ? d.value : 0;                       // UPDATED
+                }));
+                var percent = Math.round(1000 * d.data.value / total) / 10;
+                tooltip.select('.key').html(d.data.key);
+                tooltip.select('.value').html(d.data.value);
+                tooltip.select('.percent').html(percent + '%');
+                tooltip.style('display', 'block');
               });
+              path.on('mouseout', function() {
+                tooltip.style('display', 'none');
+              });
+              /* OPTIONAL
+              path.on('mousemove', function(d) {
+              tooltip.style('top', (d3.event.layerY + 10) + 'px')
+              .style('left', (d3.event.layerX + 10) + 'px');
+            });
+            */
+            var legend = svg.selectAll('.legend')
+              .data(color.domain())
+              .enter()
+              .append('g')
+              .attr('class', 'legend')
+              .attr('transform', function(d, i) {
+                var height = legendRectSize + legendSpacing;
+                var offset =  height * color.domain().length / 2;
+                var horz = -2 * legendRectSize;
+                var vert = i * height - offset;
+                return 'translate(' + horz + ',' + vert + ')';
+            });
 
-            var legend = svg.selectAll('.legend')                     // NEW
-              .data(color.domain())                                   // NEW
-              .enter()                                                // NEW
-              .append('g')                                            // NEW
-              .attr('class', 'legend')                                // NEW
-              .attr('transform', function(d, i) {                     // NEW
-                var height = legendRectSize + legendSpacing;          // NEW
-                var offset =  height * color.domain().length / 2;     // NEW
-                var horz = -2 * legendRectSize;                       // NEW
-                var vert = i * height - offset;                       // NEW
-                return 'translate(' + horz + ',' + vert + ')';        // NEW
+            legend.append('rect')
+              .attr('width', legendRectSize)
+              .attr('height', legendRectSize)
+              .style('fill', color)
+              .style('stroke', color)                                   // UPDATED (removed semicolon)
+              .on('click', function(label) {                            // NEW
+                var rect = d3.select(this);                             // NEW
+                var enabled = true;                                     // NEW
+                var totalEnabled = d3.sum(dataset.map(function(d) {     // NEW
+                  return (d.enabled) ? 1 : 0;                           // NEW
+                }));                                                    // NEW
+                if (rect.attr('class') === 'disabled') {                // NEW
+                  rect.attr('class', '');                               // NEW
+                } else {                                                // NEW
+                  if (totalEnabled < 2) return;                         // NEW
+                  rect.attr('class', 'disabled');                       // NEW
+                  enabled = false;                                      // NEW
+                }                                                       // NEW
+              pie.value(function(d) {                                 // NEW
+                if (d.key === label) d.enabled = enabled;           // NEW
+                return (d.enabled) ? d.value : 0;                     // NEW
               });                                                     // NEW
-            legend.append('rect')                                     // NEW
-              .attr('width', legendRectSize)                          // NEW
-              .attr('height', legendRectSize)                         // NEW
-              .style('fill', color)                                   // NEW
-              .style('stroke', color);                                // NEW
-            legend.append('text')                                     // NEW
-              .attr('x', legendRectSize + legendSpacing)              // NEW
-              .attr('y', legendRectSize - legendSpacing)              // NEW
-              .text(function(d) { return d; });                       // NEW
+              path = path.data(pie(dataset));                         // NEW
+              path.transition()                                       // NEW
+              .duration(750)                                        // NEW
+              .attrTween('d', function(d) {                         // NEW
+                var interpolate = d3.interpolate(this._current, d); // NEW
+                this._current = interpolate(0);                     // NEW
+                return function(t) {                                // NEW
+                  return arc(interpolate(t));                       // NEW
+                };                                                  // NEW
+              });                                                   // NEW
+            });                                                       // NEW
+            legend.append('text')
+            .attr('x', legendRectSize + legendSpacing)
+            .attr('y', legendRectSize - legendSpacing)
+            .text(function(d) { return d; });
 
-
-
-
-
-
-        });
+              });
       });
     }};
   }]);

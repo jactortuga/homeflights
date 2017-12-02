@@ -1,28 +1,55 @@
-body h1 {
-  color: #3372D9; }
-
-body .chart {
-  background: #eee;
-  padding: 3px; }
-
-body .chart div {
-  width: 0;
-  transition: all 1s ease-out;
-  -moz-transition: all 1s ease-out;
-  -webkit-transition: all 1s ease-out; }
-
-body .chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 5px;
-  color: white;
-  box-shadow: 2px 2px 2px #666; }
-
-body .arc text {
-  font: 10px sans-serif;
-  text-anchor: middle; }
-
-body .arc path {
-  stroke: #fff; }
+body {
+  /* NEW */ }
+  body h1 {
+    color: #3372D9; }
+  body .chart {
+    background: #eee;
+    padding: 3px; }
+  body .chart div {
+    width: 0;
+    transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    -webkit-transition: all 1s ease-out; }
+  body .chart div {
+    font: 10px sans-serif;
+    background-color: steelblue;
+    text-align: right;
+    padding: 3px;
+    margin: 5px;
+    color: white;
+    box-shadow: 2px 2px 2px #666; }
+  body pie-chart {
+    height: 360px;
+    margin: 0 auto;
+    /* NEW */
+    position: relative;
+    width: 360px; }
+  body .tooltip {
+    background: #eee;
+    box-shadow: 0 0 5px #999999;
+    color: #333;
+    display: none;
+    font-size: 12px;
+    left: 130px;
+    padding: 10px;
+    position: absolute;
+    text-align: center;
+    top: 95px;
+    width: 80px;
+    z-index: 10; }
+  body .key {
+    font-size: 12px; }
+  body rect {
+    cursor: pointer;
+    /* NEW */
+    stroke-width: 2; }
+  body rect.disabled {
+    /* NEW */
+    fill: transparent !important;
+    /* NEW */ }
+  body h1 {
+    /* NEW */
+    font-size: 14px;
+    /* NEW */
+    text-align: center;
+    /* NEW */ }
