@@ -5,8 +5,9 @@ require('angular-animate');
 require('angular-material');
 require('./components/home/home.js');
 require('./components/data/data.js');
+require('./shared/visualisation/barschart.js');
 
-var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data']);
+var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data','myApp.barsChart']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
