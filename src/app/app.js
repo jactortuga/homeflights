@@ -8,7 +8,7 @@ require('./components/data/data.js');
 require('./shared/d3/d3service.js');
 require('./shared/d3/d3directives.js');
 
-var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data','myApp.d3Directives']);
+var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data', 'myApp.d3Directives']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');

@@ -14,7 +14,7 @@ body {
 		-moz-transition: all 1s ease-out;
 		-webkit-transition: all 1s ease-out;
 	}
-	
+
 	.chart div {
 		font: 10px sans-serif;
 		background-color: steelblue;
@@ -23,5 +23,14 @@ body {
 		margin: 5px;
 		color: white;
 		box-shadow: 2px 2px 2px #666;
+	}
+
+	.arc text {
+		font: 10px sans-serif;
+		text-anchor: middle;
+	}
+
+	.arc path {
+		stroke: #fff;
 	}
 }

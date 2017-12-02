@@ -79866,7 +79866,7 @@ require('./components/data/data.js');
 require('./shared/d3/d3service.js');
 require('./shared/d3/d3directives.js');
 
-var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data','myApp.d3Directives']);
+var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data', 'myApp.d3Directives']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
@@ -79976,9 +79976,9 @@ angular.module('myApp.d3Directives', ['d3'])
             .selectAll('div')
             .data(data).enter()
               .append("div")
-              .transition().ease("elastic")
-              .style("width", function(d) { return d.values + "px"; })
-              .text(function(d) { return d.key + ': ' + d.values; });
+              .transition()
+              .style("width", function(d) { return d.value + "px"; })
+              .text(function(d) { return d.key + ': ' + d.value; });
             //a little of magic: setting it's width based
             //on the data value (d)
             //and text all with a smooth transition
@@ -79987,7 +79987,91 @@ angular.module('myApp.d3Directives', ['d3'])
 
       });
     }};
-}]);
+}])
+
+.directive('pieChart', ['d3Service', function(d3Service) {
+  return {
+    restrict: 'EA',
+    scope: {},
+    link: function(scope, element, attrs) {
+      d3Service.d3().then(function(d3) {
+
+        var svg = d3.select(element[0]),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        radius = Math.min(width, height) / 2,
+        g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+        var pie = d3.pie()
+        .sort(null)
+        .value(function(d) { return d.population; });
+
+        var path = d3.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(0);
+
+        var label = d3.arc()
+        .outerRadius(radius - 40)
+        .innerRadius(radius - 40);
+
+        d3.csv('./assets/dataset/home_office_air_travel_data_2011.csv', function(d) {
+          // console.log(d)
+          return d;
+        }, function(error, data) {
+          // if (error) throw error;
+
+          // var arc = g.selectAll(".arc")
+          //   .data(pie(data))
+          //   .enter().append("g")
+          //     .attr("class", "arc");
+          //
+          // arc.append("path")
+          //     .attr("d", path)
+          //     .attr("fill", function(d) { return color(d.data.age); });
+          //
+          // arc.append("text")
+          //     .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+          //     .attr("dy", "0.35em")
+          //     .text(function(d) { return d.data.age; });
+        });
+      });
+    }};
+  }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // .directive('d3Bars', ['d3Service', '$window', function(d3Service, $window) {
 //   return {
@@ -80085,7 +80169,7 @@ angular.module('d3', [])
       var scriptTag = $document[0].createElement('script');
       scriptTag.type = 'text/javascript';
       scriptTag.async = true;
-      scriptTag.src = 'https://d3js.org/d3.v3.min.js';
+      scriptTag.src = 'https://d3js.org/d3.v4.js';
       scriptTag.onreadystatechange = function () {
         if (this.readyState == 'complete') onScriptLoad();
       }
