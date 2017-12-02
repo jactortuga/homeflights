@@ -79899,8 +79899,41 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 },{"./components/data/data.js":11,"./components/home/home.js":12,"./shared/d3/d3directives.js":13,"./shared/d3/d3service.js":14,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
 angular.module('myApp.data', [])
-.controller('dataCtrl',[function(){
+.controller('dataCtrl',['$http', function($http){
 	this.dataText = 'This is the data component!';
+
+	// $http({
+	// 	method: 'GET',
+	// 	url: './assets/dataset/home_office_air_travel_data_2011.csv'
+	// }).then(function successCallback(response) {
+	// 	console.log('good')
+  //
+	// 	// this callback will be called asynchronously
+	// 	// when the response is available
+	// 	// split content based on new line
+	// 	var allText = response.data;
+	// 	var allTextLines = allText.split(/\r\n|\n/);
+	// 	var headers = allTextLines[0].split(',');
+	// 	var lines = [];
+  //
+	// 	for ( var i = 0; i < allTextLines.length; i++) {
+	// 			// split content based on comma
+	// 			var data = allTextLines[i].split(',');
+	// 			if (data.length == headers.length) {
+	// 					var tarr = [];
+	// 					for ( var j = 0; j < headers.length; j++) {
+	// 							tarr.push(data[j]);
+	// 					}
+	// 					lines.push(tarr);
+	// 			}
+	// 	}
+	// 	console.log(lines)
+	// }, function errorCallback(response) {
+	// 	// called asynchronously if an error occurs
+	// 	// or server returns response with an error status.
+	// 	console.log('error')
+	// });
+
 }]);
 
 },{}],12:[function(require,module,exports){
@@ -79920,24 +79953,38 @@ angular.module('myApp.d3Directives', ['d3'])
     scope: {},
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
-        //converting all data passed thru into an array
-        var data = attrs.chartData.split(',');
-        //in D3, any selection[0] contains the group
-        //selection[0][0] is the DOM node
-        //but we won't need that this time
-        var chart = d3.select(element[0]);
-        //to our original directive markup bars-chart
-        //we add a div with out chart stling and bind each
-        //data entry to the chart
-         chart.append("div").attr("class", "chart")
-          .selectAll('div')
-          .data(data).enter().append("div")
-          .transition().ease("elastic")
-          .style("width", function(d) { return d + "%"; })
-          .text(function(d) { return d + "%"; });
-        //a little of magic: setting it's width based
-        //on the data value (d)
-        //and text all with a smooth transition
+
+        d3.csv('./assets/dataset/home_office_air_travel_data_2011.csv', function(data){
+          console.log(data);
+
+          var expensesCount = d3.nest()
+            .key(function(d) { return d.Departure_2011; })
+            .rollup(function(v) { return v.length; })
+            .entries(data);
+            console.log(expensesCount);
+
+            //converting all data passed thru into an array
+            var data = expensesCount;
+            //in D3, any selection[0] contains the group
+            //selection[0][0] is the DOM node
+            //but we won't need that this time
+            var chart = d3.select(element[0]);
+            //to our original directive markup bars-chart
+            //we add a div with out chart stling and bind each
+            //data entry to the chart
+            chart.append("div").attr("class", "chart")
+            .selectAll('div')
+            .data(data).enter()
+              .append("div")
+              .transition().ease("elastic")
+              .style("width", function(d) { return d.values + "px"; })
+              .text(function(d) { return d.key + ': ' + d.values; });
+            //a little of magic: setting it's width based
+            //on the data value (d)
+            //and text all with a smooth transition
+
+        });
+
       });
     }};
 }]);
