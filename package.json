@@ -16,9 +16,7 @@
     "angular-animate": "^1.6.7",
     "angular-aria": "^1.6.7",
     "angular-material": "^1.1.5",
-    "angular-ui-router": "^0.4.3"
-  },
-  "devDependencies": {
+    "angular-ui-router": "^0.4.3",
     "browser-sync": "^2.18.13",
     "browserify": "^14.5.0",
     "gulp": "^3.9.1",
@@ -32,5 +30,5 @@
     "preprocess": "^3.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
-  }
+  },
 }
