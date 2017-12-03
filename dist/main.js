@@ -79862,12 +79862,13 @@ require('angular-aria');
 require('angular-animate');
 require('angular-material');
 require('./components/home/home.js');
+require('./components/about/about.js');
 require('./components/data/data.js');
 require('./shared/header/header.js');
 require('./shared/d3/d3service.js');
 require('./shared/d3/d3directives.js');
 
-var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data', 'myApp.header', 'myApp.d3Directives']);
+var app = angular.module('myApp', ['ui.router', 'ngMaterial', 'myApp.home', 'myApp.about', 'myApp.data', 'myApp.header', 'myApp.d3Directives']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
@@ -79885,8 +79886,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		}
 	})
 
+	.state('about', {
+		url: '/',
+		views: {
+			'' : {
+				templateUrl: 'app/components/about/about.html'
+			},
+			'header@about': {
+				templateUrl: 'app/shared/header/header.html'
+			}
+		}
+	})
+
 	.state('data', {
-    url: '/data',
+		url: '/data',
 		views: {
 			'': {
 				templateUrl: 'app/components/data/data.html'
@@ -79895,10 +79908,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				templateUrl: 'app/shared/header/header.html'
 			}
 		}
-  });
+	});
 });
 
-},{"./components/data/data.js":11,"./components/home/home.js":12,"./shared/d3/d3directives.js":13,"./shared/d3/d3service.js":14,"./shared/header/header.js":15,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
+},{"./components/about/about.js":11,"./components/data/data.js":12,"./components/home/home.js":13,"./shared/d3/d3directives.js":14,"./shared/d3/d3service.js":15,"./shared/header/header.js":16,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
+angular.module('myApp.about', [])
+
+.controller('aboutCtrl',[function(){
+  // this.title 				= 'HomeFlights';
+  // this.description 	= 'Visualising flight data for the UK Home Office and its agencies.';
+  // this.action 			= 'Explore';
+
+  console.log('HELLO!')
+}]);
+
+},{}],12:[function(require,module,exports){
 angular.module('myApp.data', [])
 .controller('dataCtrl',['$http', function($http){
 	this.dataText = 'This is the data component!';
@@ -79937,7 +79961,7 @@ angular.module('myApp.data', [])
 
 }]);
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 angular.module('myApp.home', [])
 
 .controller('homeCtrl',[function(){
@@ -79947,7 +79971,7 @@ angular.module('myApp.home', [])
   this.credits 			= 'Built by JP using AngularJS, AngularJS Material, D3 and SCSS';
 }]);
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 angular.module('myApp.d3Directives', ['d3'])
 .directive('barsChart', ['d3Service', function(d3Service) {
   return {
@@ -80312,7 +80336,7 @@ angular.module('myApp.d3Directives', ['d3'])
       }};
   }]);
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 angular.module('d3', [])
   .factory('d3Service', ['$document', '$q', '$rootScope',
     function($document, $q, $rootScope) {
@@ -80341,7 +80365,7 @@ angular.module('d3', [])
       };
 }]);
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 angular.module('myApp.header', [])
 
 .controller('headerCtrl',['$location', '$window', function($location, $window){

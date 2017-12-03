@@ -4,12 +4,13 @@ require('angular-aria');
 require('angular-animate');
 require('angular-material');
 require('./components/home/home.js');
+require('./components/about/about.js');
 require('./components/data/data.js');
 require('./shared/header/header.js');
 require('./shared/d3/d3service.js');
 require('./shared/d3/d3directives.js');
 
-var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data', 'myApp.header', 'myApp.d3Directives']);
+var app = angular.module('myApp', ['ui.router', 'ngMaterial', 'myApp.home', 'myApp.about', 'myApp.data', 'myApp.header', 'myApp.d3Directives']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
@@ -27,8 +28,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		}
 	})
 
+	.state('about', {
+		url: '/',
+		views: {
+			'' : {
+				templateUrl: 'app/components/about/about.html'
+			},
+			'header@about': {
+				templateUrl: 'app/shared/header/header.html'
+			}
+		}
+	})
+
 	.state('data', {
-    url: '/data',
+		url: '/data',
 		views: {
 			'': {
 				templateUrl: 'app/components/data/data.html'
@@ -37,5 +50,5 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				templateUrl: 'app/shared/header/header.html'
 			}
 		}
-  });
+	});
 });
