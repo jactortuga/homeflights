@@ -1,15 +1,14 @@
-<!-- The top toolbar -->
-<md-toolbar class="md-primary">
-<div class="md-toolbar-tools">
-
-	<h2>
-	<span>HomeFlights</span>
-	</h2>
-	<md-button ui-sref="home">
-		Home
-	</md-button>
-	<md-button ui-sref="data">
-		Data
-	</md-button>
-</div>
+<md-toolbar class="md-primary md-custom" ng-controller="headerCtrl as header">
+	<div class="md-toolbar-tools md-custom">
+		<h1>HomeFlights</h1>
+		<md-button ui-sref="home">Home</md-button>
+		<md-button ui-sref="data">Data</md-button>
+	</div>
+	<md-content class="md-padding" ng-show="header.isDataView">
+    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+      <md-nav-item md-nav-sref="home" name="home">Page Four</md-nav-item>
+      <md-nav-item md-nav-sref="home" name="home">Page Five</md-nav-item>
+      <md-nav-item md-nav-sref="data" name="data">Page Six</md-nav-item>
+    </md-nav-bar>
+  </md-content>
 </md-toolbar>

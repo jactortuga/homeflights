@@ -1,4 +1,17 @@
+.md-custom.md-primary {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #f3f3f3;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22); }
+
+.md-custom.md-custom {
+  height: 50px; }
+
 body {
+  background-color: #A0C5DE;
+  background-color: #2CADA7;
+  background-color: #11527B;
+  background-color: #E4152F;
+  background-color: #D92624;
   /* NEW */ }
   body h1 {
     color: #3372D9; }

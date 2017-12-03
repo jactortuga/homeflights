@@ -79863,10 +79863,11 @@ require('angular-animate');
 require('angular-material');
 require('./components/home/home.js');
 require('./components/data/data.js');
+require('./shared/header/header.js');
 require('./shared/d3/d3service.js');
 require('./shared/d3/d3directives.js');
 
-var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data', 'myApp.d3Directives']);
+var app = angular.module('myApp', ['ui.router','ngMaterial','myApp.home','myApp.data', 'myApp.header', 'myApp.d3Directives']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
@@ -79897,7 +79898,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
 });
 
-},{"./components/data/data.js":11,"./components/home/home.js":12,"./shared/d3/d3directives.js":13,"./shared/d3/d3service.js":14,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
+},{"./components/data/data.js":11,"./components/home/home.js":12,"./shared/d3/d3directives.js":13,"./shared/d3/d3service.js":14,"./shared/header/header.js":15,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
 angular.module('myApp.data', [])
 .controller('dataCtrl',['$http', function($http){
 	this.dataText = 'This is the data component!';
@@ -80304,6 +80305,16 @@ angular.module('d3', [])
       return {
         d3: function() { return d.promise; }
       };
+}]);
+
+},{}],15:[function(require,module,exports){
+angular.module('myApp.header', [])
+.controller('headerCtrl',['$location', function($location){
+  console.log('HELLO!');
+  var currentPath = $location.path();
+  this.isDataView = currentPath === '/data' ? true : false;
+  console.log(currentPath);
+  console.log(this.isDataView);
 }]);
 
 },{}]},{},[10]);

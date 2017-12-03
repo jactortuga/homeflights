@@ -1,4 +1,13 @@
+@import 'variables';
+@import 'header';
+
 body {
+	background-color: $light-blue;
+	background-color: $medium-blue;
+	background-color: $dark-blue;
+	background-color: $light-red;
+	background-color: $dark-red;
+
 	h1 {
 		color:#3372D9;
 	}

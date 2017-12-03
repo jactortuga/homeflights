@@ -1,0 +1,15 @@
+@import 'variables';
+
+.md-custom {
+
+  &.md-primary {
+    background-color: $white;
+    border-bottom: 1px solid #f3f3f3;
+    box-shadow: 0 1px 4px rgba(0,0,0,.22);
+  }
+
+  &.md-custom {
+    height: 50px;
+  }
+
+}
