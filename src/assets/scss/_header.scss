@@ -1,15 +1,47 @@
 @import 'variables';
 
-.md-custom {
+.hd-toolbar {
 
   &.md-primary {
     background-color: $white;
     border-bottom: 1px solid #f3f3f3;
     box-shadow: 0 1px 4px rgba(0,0,0,.22);
+    height: 50px;
+    min-height: 0;
   }
 
-  &.md-custom {
-    height: 50px;
+  &.md-toolbar-tools {
+
   }
+
+  .hd-title {
+    color: $black;
+    font-family: 'Ubuntu', sans-serif;
+    margin-right: 25px;
+  }
+
+  .hd-button {
+    color: $black;
+    min-width: 50px;
+    text-transform: capitalize;
+  }
+
+  .hd-github {
+    cursor: pointer;
+    height: 30px;
+    position: absolute;
+    right: 20px;
+    width: 30px;
+
+    &:focus {
+      outline: none;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
 
 }

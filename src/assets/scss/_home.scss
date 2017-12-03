@@ -1,0 +1,71 @@
+@import 'variables';
+
+.hm-wrapper {
+  display: flex;
+  background: linear-gradient(to bottom, #2980b9, #2c3e50);
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 50px);
+  overflow: auto;
+  position: relative;
+
+  .hm-section {
+    margin: 0 auto;
+    max-width: 500px;
+    text-align: center;
+  }
+
+  .hm-heading {
+    position: relative;
+  }
+
+  .hm-title {
+    color: $white;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 60px;
+  }
+
+  .hm-logo {
+    width: 150px;
+    height: 150px;
+    display: block;
+    position: absolute;
+    top: -75%;
+    right: 0;
+    left: 25%;
+    margin: 0 auto;
+    transform: rotate(30deg);
+
+    svg path {
+      transform: scale(3);
+    }
+  }
+
+  .hm-description {
+    color: $white;
+    font-family: 'Ubuntu', sans-serif;
+  }
+
+  .hd-button {
+    color: $black;
+    background-color: $white;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  .hm-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    .md-container {
+      background-color: $white;
+    }
+
+    .md-bar {
+      background-color: #2c3e50;
+    }
+  }
+}
