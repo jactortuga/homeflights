@@ -1,17 +1,58 @@
 @import 'variables';
 
-.hd-toolbar {
+.hd-wrapper {
+  left: 0;
+  position: fixed;
+  top: 0;
 
   &.md-primary {
     background-color: $white;
     border-bottom: 1px solid #f3f3f3;
     box-shadow: 0 1px 4px rgba(0,0,0,.22);
+    min-height: 0;
+  }
+
+  .hd-primary {
     height: 50px;
     min-height: 0;
   }
 
-  &.md-toolbar-tools {
+  .hd-secondary {
+    border-top: 1px solid #f3f3f3;
+    height: 30px;
+    padding: 0 16px;
 
+    .md-nav-bar,
+    .md-nav-bar > nav,
+    ._md-nav-bar-list {
+      border-color: transparent;
+      border-width: 0;
+      height: 100%;
+    }
+
+    .md-nav-item {
+      margin-left: 0;
+    }
+  }
+
+  .hd-navbar {
+
+    height: 100%;
+  }
+
+  .hd-sublink {
+    color: $black;
+
+    &:first-of-type .md-button {
+      margin-left: 0;
+    }
+
+    .md-button {
+      color: $black;
+      line-height: 30px;
+      min-height: 0;
+      padding: 0;
+    }
   }
 
   .hd-title {

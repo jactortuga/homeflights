@@ -1,16 +1,17 @@
-<md-toolbar class="md-primary hd-toolbar" ng-controller="headerCtrl as header">
-	<div class="md-toolbar-tools">
+<md-toolbar class="md-primary hd-wrapper" ng-controller="headerCtrl as hd">
+	<!-- PRIMARY GLOBAL NAVBAR -->
+	<div class="md-toolbar-tools hd-primary">
 		<h1 class="hd-title">HomeFlights</h1>
 		<md-button class="hd-button" ui-sref="home">Home</md-button>
 		<md-button class="hd-button" ui-sref="about">About</md-button>
 		<md-button class="hd-button" ui-sref="data">Data</md-button>
-		<github-logo class="hd-github" ng-click="header.openGithubLink()"></github-logo>
+		<github-logo class="hd-github" ng-click="hd.openGithubLink()"></github-logo>
 	</div>
-	<md-content class="md-padding" ng-show="header.isDataView">
-    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-      <md-nav-item md-nav-sref="home" name="home">Destinations</md-nav-item>
-      <md-nav-item md-nav-sref="home" name="home">Arrivals</md-nav-item>
-      <md-nav-item md-nav-sref="data" name="data">Flight Class</md-nav-item>
+	<!-- SECONDARY DATA NAVBAR -->
+	<md-content class="md-padding hd-secondary" ng-show="hd.isDataView">
+    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" class="hd-navbar">
+      <md-nav-item md-nav-sref="home" name="home" class="hd-sublink">2011 Overview</md-nav-item>
+      <md-nav-item md-nav-sref="home" name="home" class="hd-sublink">2011 Details</md-nav-item>
     </md-nav-bar>
   </md-content>
 </md-toolbar>

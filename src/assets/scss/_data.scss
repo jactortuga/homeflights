@@ -1,1 +1,6 @@
 @import 'variables';
+
+.dt-wrapper {
+  min-height: calc(100vh - 50px);
+  padding-top: 50px;
+}
