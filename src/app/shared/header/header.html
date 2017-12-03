@@ -2,16 +2,16 @@
 	<!-- PRIMARY GLOBAL NAVBAR -->
 	<div class="md-toolbar-tools hd-primary">
 		<h1 class="hd-title">HomeFlights</h1>
-		<md-button class="hd-button" ui-sref="home">Home</md-button>
-		<md-button class="hd-button" ui-sref="about">About</md-button>
-		<md-button class="hd-button" ui-sref="data">Data</md-button>
+		<md-button class="hd-button" ui-sref="home" ui-sref-active="hd-active">Home</md-button>
+		<md-button class="hd-button" ui-sref="about" ui-sref-active="hd-active">About</md-button>
+		<md-button class="hd-button" ui-sref="data.overview" ng-class="{ 'hd-active': hd.isDataView }">Data</md-button>
 		<github-logo class="hd-github" ng-click="hd.openGithubLink()"></github-logo>
 	</div>
 	<!-- SECONDARY DATA NAVBAR -->
 	<md-content class="md-padding hd-secondary" ng-show="hd.isDataView">
     <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" class="hd-navbar">
-			<md-nav-item md-nav-sref="data.overview" class="hd-sublink">Overview</md-nav-item>
-			<md-nav-item md-nav-sref="data.costs" class="hd-sublink">Costs</md-nav-item>
+			<md-nav-item md-nav-sref="data.overview" ui-sref-active="hd-active" class="hd-sublink">Overview</md-nav-item>
+			<md-nav-item md-nav-sref="data.costs" ui-sref-active="hd-active" class="hd-sublink">Costs</md-nav-item>
     </md-nav-bar>
   </md-content>
 </md-toolbar>

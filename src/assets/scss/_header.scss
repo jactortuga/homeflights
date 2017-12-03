@@ -7,7 +7,7 @@
 
   &.md-primary {
     background-color: $white;
-    border-bottom: 1px solid #f3f3f3;
+    // border-bottom: 1px solid #f3f3f3;
     box-shadow: 0 1px 4px rgba(0,0,0,.22);
     min-height: 0;
   }
@@ -33,6 +33,10 @@
     .md-nav-item {
       margin-left: 0;
     }
+
+    md-nav-ink-bar {
+      display: none;
+    }
   }
 
   .hd-navbar {
@@ -43,11 +47,16 @@
   .hd-sublink {
     color: $black;
 
+    &.hd-active .md-button {
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+
     &:first-of-type .md-button {
       margin-left: 0;
     }
 
     .md-button {
+      border-radius: 0;
       color: $black;
       line-height: 30px;
       min-height: 0;
@@ -63,8 +72,16 @@
 
   .hd-button {
     color: $black;
+    height: 30px;
+    line-height: 30px;
+    min-height: 0;
     min-width: 50px;
+    padding: 0px 15px;
     text-transform: capitalize;
+
+    &.hd-active {
+      background-color: rgba(0,0,0,0.12);
+    }
   }
 
   .hd-github {

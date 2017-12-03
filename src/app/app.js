@@ -42,6 +42,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 	.state('data', {
 		url: '/data',
+		cache: false,
+		abstract: true,
 		views: {
 			'': {
 				templateUrl: 'app/components/data/data.html'

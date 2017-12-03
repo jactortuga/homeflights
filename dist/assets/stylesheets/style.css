@@ -4,7 +4,6 @@
   top: 0; }
   .hd-wrapper.md-primary {
     background-color: #FFFFFF;
-    border-bottom: 1px solid #f3f3f3;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
     min-height: 0; }
   .hd-wrapper .hd-primary {
@@ -22,13 +21,18 @@
       height: 100%; }
     .hd-wrapper .hd-secondary .md-nav-item {
       margin-left: 0; }
+    .hd-wrapper .hd-secondary md-nav-ink-bar {
+      display: none; }
   .hd-wrapper .hd-navbar {
     height: 100%; }
   .hd-wrapper .hd-sublink {
     color: #333333; }
+    .hd-wrapper .hd-sublink.hd-active .md-button {
+      background-color: rgba(0, 0, 0, 0.12); }
     .hd-wrapper .hd-sublink:first-of-type .md-button {
       margin-left: 0; }
     .hd-wrapper .hd-sublink .md-button {
+      border-radius: 0;
       color: #333333;
       line-height: 30px;
       min-height: 0;
@@ -39,8 +43,14 @@
     margin-right: 25px; }
   .hd-wrapper .hd-button {
     color: #333333;
+    height: 30px;
+    line-height: 30px;
+    min-height: 0;
     min-width: 50px;
+    padding: 0px 15px;
     text-transform: capitalize; }
+    .hd-wrapper .hd-button.hd-active {
+      background-color: rgba(0, 0, 0, 0.12); }
   .hd-wrapper .hd-github {
     cursor: pointer;
     height: 30px;
