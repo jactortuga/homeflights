@@ -38,25 +38,38 @@
   .hm-wrapper .hm-section {
     margin: 0 auto;
     max-width: 500px;
-    text-align: center; }
-  .hm-wrapper .hm-heading {
-    position: relative; }
+    text-align: center;
+    z-index: 1; }
   .hm-wrapper .hm-title {
     color: #FFFFFF;
     font-family: 'Ubuntu', sans-serif;
-    font-size: 60px; }
+    font-size: 60px;
+    margin: 0 auto 20px auto; }
   .hm-wrapper .hm-logo {
-    width: 150px;
-    height: 150px;
+    width: 500px;
+    height: 500px;
     display: block;
     position: absolute;
-    top: -75%;
+    top: 50%;
     right: 0;
-    left: 25%;
+    left: 0;
     margin: 0 auto;
-    transform: rotate(30deg); }
+    opacity: 0.2;
+    transform: translateY(-50%);
+    animation: scale-toggle 15s infinite; }
     .hm-wrapper .hm-logo svg path {
-      transform: scale(3); }
+      transform: scale(10); }
+
+@keyframes scale-toggle {
+  0% {
+    opacity: 0.2;
+    transform: translateY(-50%) scale(1); }
+  50% {
+    opacity: 0.05;
+    transform: translateY(-50%) scale(1.4); }
+  100% {
+    opacity: 0.2;
+    transform: translateY(-50%) scale(1); } }
   .hm-wrapper .hm-description {
     color: #FFFFFF;
     font-family: 'Ubuntu', sans-serif; }
@@ -65,10 +78,19 @@
     background-color: #FFFFFF; }
     .hm-wrapper .hd-button:hover {
       color: #FFFFFF; }
-  .hm-wrapper .hm-bar {
+  .hm-wrapper .hm-credits {
+    bottom: 5px;
+    color: #FFFFFF;
+    font-size: 10px;
     position: absolute;
     left: 0;
-    bottom: 0; }
+    opacity: 0.5;
+    right: 0;
+    text-align: center; }
+  .hm-wrapper .hm-bar {
+    bottom: 0;
+    left: 0;
+    position: absolute; }
     .hm-wrapper .hm-bar .md-container {
       background-color: #FFFFFF; }
     .hm-wrapper .hm-bar .md-bar {

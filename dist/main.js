@@ -79942,8 +79942,9 @@ angular.module('myApp.home', [])
 
 .controller('homeCtrl',[function(){
   this.title 				= 'HomeFlights';
-  this.description 	= 'Visualising flight data for the UK Home Office and its agencies.';
+  this.description 	= 'Keeping track of flight data for the UK Home Office and its agencies through visualisation';
   this.action 			= 'Explore';
+  this.credits 			= 'Built by JP using AngularJS, AngularJS Material, D3 and SCSS';
 }]);
 
 },{}],13:[function(require,module,exports){
