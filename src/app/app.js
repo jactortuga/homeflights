@@ -29,7 +29,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	})
 
 	.state('about', {
-		url: '/',
+		url: '/about',
 		views: {
 			'' : {
 				templateUrl: 'app/components/about/about.html'
@@ -48,6 +48,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			},
 			'header@data': {
 				templateUrl: 'app/shared/header/header.html'
+			}
+		}
+	})
+
+	.state('data.overview', {
+		url: '/overview',
+		views: {
+			'': {
+				templateUrl: 'app/components/data/data-overview.html'
+			}
+		}
+	})
+
+	.state('data.costs', {
+		url: '/costs',
+		views: {
+			'': {
+				templateUrl: 'app/components/data/data-costs.html'
 			}
 		}
 	});

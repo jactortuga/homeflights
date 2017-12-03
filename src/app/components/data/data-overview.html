@@ -1,0 +1,45 @@
+<!-- <div ui-view="header"></div> -->
+<div ng-controller="dataCtrl as dt" class="dt-wrapper">
+	<!-- <h1 ng-bind="dt.dataText"></h1>
+	<dots-chart></dots-chart>
+	<bars-chart data="'Departure_2011'"></bars-chart>
+	<bars-chart data="'Supplier_name'"></bars-chart>
+	<bars-chart data="'Directorate'"></bars-chart>
+	<pie-chart data="'Departure'"></pie-chart>
+	<pie-chart data="'Destination'"></pie-chart>
+	<pie-chart data="'Ticket_class_description'"></pie-chart> -->
+
+	<md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="4:3" md-gutter="8px" md-gutter-gt-sm="4px">
+
+		<md-grid-tile md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
+			<pie-chart data="'Destination'"></pie-chart>
+			<md-grid-tile-footer><h3>Destination locations</h3></md-grid-tile-footer>
+		</md-grid-tile>
+
+		<md-grid-tile md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
+			<pie-chart data="'Ticket_class_description'"></pie-chart>
+			<md-grid-tile-footer><h3>Types of ticket class</h3></md-grid-tile-footer>
+		</md-grid-tile>
+
+		<md-grid-tile md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
+			<pie-chart data="'Departure'"></pie-chart>
+			<md-grid-tile-footer><h3>Departure locations</h3></md-grid-tile-footer>
+		</md-grid-tile>
+
+		<md-grid-tile md-rowspan="2" md-colspan="6" md-colspan-sm="1" md-colspan-xs="1">
+			<bars-chart data="'Departure_2011'"></bars-chart>
+			<md-grid-tile-footer><h3>Number of flights per month</h3></md-grid-tile-footer>
+		</md-grid-tile>
+
+		<md-grid-tile md-rowspan="2" md-colspan="6" md-colspan-sm="1" md-colspan-xs="1">
+			<bars-chart data="'Supplier_name'"></bars-chart>
+			<md-grid-tile-footer><h3>Number of flights per air carrier</h3></md-grid-tile-footer>
+		</md-grid-tile>
+
+		<md-grid-tile md-rowspan="2" md-colspan="6" md-colspan-sm="1" md-colspan-xs="1">
+			<bars-chart data="'Directorate'"></bars-chart>
+			<md-grid-tile-footer><h3>Number of flights per directorate</h3></md-grid-tile-footer>
+		</md-grid-tile>
+	</md-grid-list>
+
+</div>
