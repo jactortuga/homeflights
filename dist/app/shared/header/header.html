@@ -1,8 +1,7 @@
 <md-toolbar class="md-primary hd-wrapper" ng-controller="headerCtrl as hd">
 	<!-- PRIMARY GLOBAL NAVBAR -->
 	<div class="md-toolbar-tools hd-primary">
-		<h1 class="hd-title">HomeFlights</h1>
-		<md-button class="hd-button" ui-sref="home" ui-sref-active="hd-active">Home</md-button>
+		<h1 class="hd-title" ui-sref="home">HomeFlights</h1>
 		<md-button class="hd-button" ui-sref="about" ui-sref-active="hd-active">About</md-button>
 		<md-button class="hd-button" ui-sref="data.overview" ng-class="{ 'hd-active': hd.isDataView }">Data</md-button>
 		<github-logo class="hd-github" ng-click="hd.openGithubLink()"></github-logo>

@@ -1,53 +1,34 @@
 var gulp          = require('gulp');
 var sass          = require('gulp-sass');
-var browserify    = require('browserify');
-var source        = require('vinyl-source-stream');
+var rename        = require('gulp-rename');
 var buffer        = require('vinyl-buffer');
-var jshint        = require('gulp-jshint');
+var bro           = require('gulp-bro');
+var cleanCSS      = require('gulp-clean-css');
 var browserSync   = require('browser-sync').create();
 var uglify        = require('gulp-uglify');
-var concat        = require('gulp-concat');
-var environments  = require('gulp-environments');
-var development   = environments.development;
-var production    = environments.production;
-/** load config file based on enviroment */
-var configFile    = production() ? './src/env/prod.js' : './src/env/dev.js';
 
-gulp.task('lint', function() {
-  return gulp.src('./src/app/**/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
 
-gulp.task('scripts', function(){
-  return gulp.src(['./src/assets/**/*.js',configFile])
-    .pipe(uglify())
-    .pipe(concat('vendor.min.js'))
-    .pipe(gulp.dest('./dist/'));
-});
-
-gulp.task('browserify', function() {
-  // Grabs the app.js file
-  return browserify('./src/app/app.js')
-    // bundles it and creates a file called main.js
-    .bundle()
-    .pipe(source('main.js'))
-    .pipe(gulp.dest('./dist/'));
-});
-
-gulp.task('copy', ['browserify','scss'], function() {
-  gulp.src(['./src/**/*.html','./src/**/*.css'])
+gulp.task('copy', function() {
+  gulp.src(['./src/**/*.html','./src/**/*.csv'])
     .pipe(gulp.dest('./dist'))
     .pipe(browserSync.stream());
+});
+
+gulp.task('scripts', function() {
+  return gulp.src('./src/app/app.js')
+    .pipe(bro())
+    // .pipe(buffer())
+    // .pipe(uglify({ mangle: false }))
+    .pipe(rename('bundle.js'))
+    .pipe(gulp.dest('./dist'))
 });
 
 gulp.task('scss', function() {
   gulp.src('./src/assets/scss/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./src/assets/stylesheets/'));
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest('./dist/assets/css'));
 });
-
-gulp.task('build',['lint', 'scss', 'copy', 'scripts']);
 
 gulp.task('browser-sync', ['build'], function() {
   browserSync.init({
@@ -61,6 +42,7 @@ gulp.task('browser-sync', ['build'], function() {
   });
 });
 
+gulp.task('build',['scripts', 'scss', 'copy']);
 
 gulp.task('default', ['browser-sync'], function(){
   gulp.watch('./src/**/*.*', ['build']);
