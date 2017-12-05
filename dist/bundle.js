@@ -79958,7 +79958,6 @@ angular.module('myApp.data', [])
 		// });
 	};
 
-	this.greeting = "Resize the page to see the re-rendering";
 	this.d3Data = [
 		{name: 'Greg', score: 98},
 		{name: 'Ari', score: 96},
@@ -79966,37 +79965,37 @@ angular.module('myApp.data', [])
 		{name: 'Loser', score: 48}
 	]
 
-	// $http({
-	// 	method: 'GET',
-	// 	url: './assets/dataset/home_office_air_travel_data_2011.csv'
-	// }).then(function successCallback(response) {
-	// 	console.log('good')
-  //
-	// 	// this callback will be called asynchronously
-	// 	// when the response is available
-	// 	// split content based on new line
-	// 	var allText = response.data;
-	// 	var allTextLines = allText.split(/\r\n|\n/);
-	// 	var headers = allTextLines[0].split(',');
-	// 	var lines = [];
-  //
-	// 	for ( var i = 0; i < allTextLines.length; i++) {
-	// 			// split content based on comma
-	// 			var data = allTextLines[i].split(',');
-	// 			if (data.length == headers.length) {
-	// 					var tarr = [];
-	// 					for ( var j = 0; j < headers.length; j++) {
-	// 							tarr.push(data[j]);
-	// 					}
-	// 					lines.push(tarr);
-	// 			}
-	// 	}
-	// 	console.log(lines)
-	// }, function errorCallback(response) {
-	// 	// called asynchronously if an error occurs
-	// 	// or server returns response with an error status.
-	// 	console.log('error')
-	// });
+	$http({
+		method: 'GET',
+		url: './assets/dataset/home_office_air_travel_data_2011.csv'
+	}).then(function successCallback(response) {
+		console.log('good')
+
+		// this callback will be called asynchronously
+		// when the response is available
+		// split content based on new line
+		var allText = response.data;
+		var allTextLines = allText.split(/\r\n|\n/);
+		var headers = allTextLines[0].split(',');
+		var lines = [];
+
+		for ( var i = 0; i < allTextLines.length; i++) {
+				// split content based on comma
+				var data = allTextLines[i].split(',');
+				if (data.length == headers.length) {
+						var tarr = [];
+						for ( var j = 0; j < headers.length; j++) {
+								tarr.push(data[j]);
+						}
+						lines.push(tarr);
+				}
+		}
+		console.log(lines)
+	}, function errorCallback(response) {
+		// called asynchronously if an error occurs
+		// or server returns response with an error status.
+		console.log('error')
+	});
 
 }]);
 
@@ -80013,7 +80012,7 @@ angular.module('myApp.home', [])
 },{}],14:[function(require,module,exports){
 angular.module('myApp.d3Directives', ['d3'])
 
-  .directive('d3Bar', ['d3Service', '$window', function(d3Service, $window) {
+  .directive('d3Bar', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {
     return {
       // Restrict directive to be element as semantically more understandable
       restrict: 'E',
@@ -80039,101 +80038,107 @@ angular.module('myApp.d3Directives', ['d3'])
           var barPadding  = parseInt(attributes.barPadding) || 5;
 
           // Define browser resize event to check for window size changes for re-rendering
-          $window.onresize = function() {
-            scope.$apply();
-          };
+          // $window.onresize = function() {
+          //   scope.$apply();
+          // };
 
           // Define watcher to check size of directive parent element for re-rendering
-          scope.$watch(function() {
-            return angular.element($window)[0].innerWidth;
-          }, function() {
-            scope.render(scope.data);
-          });
+          // scope.$watch(function() {
+          //   return angular.element($window)[0].innerWidth;
+          // }, function() {
+          //   scope.render(scope.data);
+          // });
 
           // Define watcher to check input data changes for re-rendering
           scope.$watch('data', function(newValues, oldValues) {
             return scope.render(newValues);
           }, true);
 
+
+
+
+
           // Define render function to apply changes
           scope.render = function(data) {
-
             // If no data is passed stop render functionalty
             if (!data) return;
 
             // Before render new data, remove all previous svg elements
             svg.selectAll('*').remove();
 
-            // Calculate width and height
-            // Define transition duations for bar and text elements
-            // Setup multicolor support
-            // define adaptive horizonal scale based on data values
-            var width         = d3.select(element[0]).node().offsetWidth - margin;
-            var height        = scope.data.length * (barHeight + barPadding);
-            var barDuration   = 1000;
-            var textDuration  = 400;
-            var color         = d3.scaleOrdinal(d3.schemeCategory20);
-            var xScale        = d3.scaleLinear()
-                                .domain([0, d3.max(data, function(d) {
-                                  return d.score;
-                                })])
-                                .range([0, width]);
+            // Set timeout to avoid rendering issues caused by width calcuations
+            $timeout(function() {
+              // Calculate width and height
+              // Define transition duations for bar and text elements
+              // Setup multicolor support
+              // define adaptive horizonal scale based on data values
+              var width         = d3.select(element[0]).node().offsetWidth - margin;
+              var height        = scope.data.length * (barHeight + barPadding);
+              var barDuration   = 1000;
+              var textDuration  = 400;
+              var color         = d3.scaleOrdinal(d3.schemeCategory20);
+              var xScale        = d3.scaleLinear()
+                                  .domain([0, d3.max(data, function(d) {
+                                    return d.score;
+                                  })])
+                                  .range([0, width]);
 
-            // Set new height based on calculations
-            svg.attr('height', height);
+              // Set new height based on calculations
+              svg.attr('height', height);
 
-            // Generate rectangles for bar chart
-            svg.selectAll('rect')
-               .data(data).enter()
-               // Append rectangle elements to svg based on data
-               .append('rect')
-               // Define
-               .attr('height', barHeight)
-               .attr('width', 5)
-               // Define positioning of bars based on margin, bar-height and bar-padding
-               .attr('x', Math.round(margin/2))
-               .attr('y', function(d, i) {
-                 return i * (barHeight + barPadding);
-               })
-               // Fill bars with d3 color functionality
-               .attr('fill', function(d) {
-                 return color(d.score);
-               })
-               // Define bars click to return clicked element data
-               .on('click', function(d, i) {
-                 return scope.onClick({item: d});
-               })
-               // Apply smooth transition
-               .transition()
-               // Define transition duration
-               .duration(barDuration)
-               // Scale bars width based on data values
-               .attr('width', function(d) {
-                 return xScale(d.score);
-               });
+              // Generate rectangles for bar chart
+              svg.selectAll('rect')
+                 .data(data).enter()
+                 // Append rectangle elements to svg based on data
+                 .append('rect')
+                 // Define
+                 .attr('height', barHeight)
+                 .attr('width', 5)
+                 // Define positioning of bars based on margin, bar-height and bar-padding
+                 .attr('x', Math.round(margin/2))
+                 .attr('y', function(d, i) {
+                   return i * (barHeight + barPadding);
+                 })
+                 // Fill bars with d3 color functionality
+                 .attr('fill', function(d) {
+                   return color(d.score);
+                 })
+                 // Define bars click to return clicked element data
+                 .on('click', function(d, i) {
+                   return scope.onClick({item: d});
+                 })
+                 // Apply smooth transition
+                 .transition()
+                 // Define transition duration
+                 .duration(barDuration)
+                 // Scale bars width based on data values
+                 .attr('width', function(d) {
+                   return xScale(d.score);
+                 });
 
-            // Generate text labels for bar chart
-            svg.selectAll('text')
-               .data(data).enter()
-               // Append text elements to svg based on data
-               .append('text')
-               // Display text value based on data
-               .text(function(d, i) {
-                 return d.name + ': ' + d.score;
-               })
-               // Define color and dynamic positioning of text elements
-               .attr('fill', '#FFFFFF')
-               .attr('x', 15)
-               .attr('y', function(d, i) {
-                 return i * (barHeight + barPadding) + (barHeight / 2 + barPadding);
-               })
-               // Set initial opacity to zero to hide text elements
-               .style('opacity', 0)
-               // Set smooth transition to fade in text elements after cretion of bars
-               .transition()
-               .style('opacity', 1)
-               .delay(barDuration)
-               .duration(textDuration)
+              // Generate text labels for bar chart
+              svg.selectAll('text')
+                 .data(data).enter()
+                 // Append text elements to svg based on data
+                 .append('text')
+                 // Display text value based on data
+                 .text(function(d, i) {
+                   return d.name + ': ' + d.score;
+                 })
+                 // Define color and dynamic positioning of text elements
+                 .attr('fill', '#FFFFFF')
+                 .attr('x', 15)
+                 .attr('y', function(d, i) {
+                   return i * (barHeight + barPadding) + (barHeight / 2 + barPadding);
+                 })
+                 // Set initial opacity to zero to hide text elements
+                 .style('opacity', 0)
+                 // Set smooth transition to fade in text elements after cretion of bars
+                 .transition()
+                 .style('opacity', 1)
+                 .delay(barDuration)
+                 .duration(textDuration);
+            });
           };
         });
       }};
