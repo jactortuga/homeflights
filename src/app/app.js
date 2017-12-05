@@ -7,10 +7,11 @@ require('./components/home/home.js');
 require('./components/about/about.js');
 require('./components/data/data.js');
 require('./shared/header/header.js');
+require('./shared/data/dataparserservice.js');
 require('./shared/d3/d3service.js');
 require('./shared/d3/d3directives.js');
 
-var app = angular.module('myApp', ['ui.router', 'ngMaterial', 'myApp.home', 'myApp.about', 'myApp.data', 'myApp.header', 'myApp.d3Directives']);
+var app = angular.module('myApp', ['ui.router', 'ngMaterial', 'myApp.home', 'myApp.about', 'myApp.data', 'myApp.header', 'myApp.dataParser', 'myApp.d3Directives']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');

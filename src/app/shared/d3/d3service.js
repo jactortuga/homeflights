@@ -1,5 +1,6 @@
 // Using d3 with dependency injection
-angular.module('d3', [])
+angular
+  .module('d3', [])
   .factory('d3Service', ['$document', '$q', '$rootScope', function($document, $q, $rootScope) {
 
     // Define new instance of deferred object to perform action asynchronously

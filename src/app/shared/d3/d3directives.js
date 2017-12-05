@@ -1,5 +1,5 @@
-angular.module('myApp.d3Directives', ['d3'])
-
+angular
+  .module('myApp.d3Directives', ['d3'])
   .directive('d3Bar', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {
     return {
       // Restrict directive to be element as semantically more understandable
@@ -12,8 +12,6 @@ angular.module('myApp.d3Directives', ['d3'])
       // Add d3 code in link property
       link: function(scope, element, attributes) {
         // Call d3Service to access library
-        console.log('this is scope data')
-        console.log(scope.data)
         d3Service.d3().then(function(d3) {
           console.log('D3 INJECTED');
 
@@ -109,9 +107,9 @@ angular.module('myApp.d3Directives', ['d3'])
                  .append('text')
                  // Display text value based on data keys and values
                  .text(function(d, i) {
-                   var key    = d[Object.keys(d)[0]];
-                   var value  = d[Object.keys(d)[1]];
-                   return key + ': ' + value;
+                   // var key    = d[Object.keys(d)[0]];
+                   // var value  = d[Object.keys(d)[1]];
+                   return d.value + ': ' + d.score;
                  })
                  // Define color and dynamic positioning of text elements
                  .attr('fill', '#FFFFFF')
