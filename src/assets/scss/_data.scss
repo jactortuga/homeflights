@@ -3,12 +3,62 @@
 .dt-wrapper {
   min-height: calc(100vh - 80px);
   padding-top: 80px;
+  background: linear-gradient(to top, #ece9e6, #ffffff);
+  background: #ece9e6;
 
   .dt-grid-tile {
     overflow: hidden;
   }
 
-  d3-bar, d3-pie {
-    width: 90%;
+  d3-bar {
+    width: 95%;
   }
+
+  d3-pie {
+    width: 85%;
+
+    .tooltip {
+      background: #eee;
+      box-shadow: 0 0 5px #999999;
+      color: #333;
+      display: none;
+      font-size: 12px;
+      left: 130px;
+      padding: 10px;
+      position: absolute;
+      text-align: center;
+      top: 95px;
+      width: 80px;
+      z-index: 10;
+    }
+
+    .key {
+      font-size: 12px;
+    }
+
+    rect {
+      cursor: pointer;
+      stroke-width: 2;
+
+      &.disabled {
+        fill: #ece9e6 !important;
+      }
+    }
+
+    h1 {
+      font-size: 14px;
+      text-align: center;
+    }
+
+    circle {
+      stroke: #333;
+      stroke-width: 1;
+    }
+  }
+
+   @media screen and (max-width: 959px) {
+     d3-pie {
+       width: 70%;
+     }
+   }
 }

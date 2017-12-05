@@ -129,499 +129,202 @@ angular
             });
           };
         });
-      }};
+      }
+    };
   }])
 
 
   // d3 directive to generate pie charts
   .directive('d3Pie', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {
-  return {
-    // Restrict directive to be element as semantically more understandable
-    restrict: 'E',
-    // Define isolate scope for bi-directional data-binding and parent execution binding
-    scope: {
-      data: '=',
-      onClick: '&'
-    },
-    // Add d3 code in link property
-    link: function(scope, element, attributes) {
-      // Call d3Service to access library
-      d3Service.d3().then(function(d3) {
-        //
-        var svg = d3.select(element[0])
-                    .append('svg')
-                    .style('width', '100%');
-        //
-        // // Define margin, bar-height and bar-padding to customize properties svg
-        // var margin      = parseInt(attributes.margin) || 20;
-        // var barHeight   = parseInt(attributes.barHeight) || 20;
-        // var barPadding  = parseInt(attributes.barPadding) || 5;
-
-        // Define browser resize event to check for window size changes for re-rendering
-        $window.onresize = function() {
-          scope.$apply();
-        };
-
-        // Define watcher to check size of directive parent element for re-rendering
-        scope.$watch(function() {
-          return angular.element($window)[0].innerWidth;
-        }, function() {
-          scope.render(scope.data);
-        });
-
-        // Define watcher to check input data changes for re-rendering
-        scope.$watch('data', function(newValues, oldValues) {
-          return scope.render(newValues);
-        }, true);
-
-        // Define render function to apply changes
-        scope.render = function(data) {
-          // If no data is passed stop render functionalty
-          if (!data) return;
-
-          // Before render new data, remove all previous svg elements
-          svg.selectAll('*').remove();
-
-          // Set timeout to avoid rendering issues caused by width calcuations
-          $timeout(function() {
-
-
-          var dataset = data;
-          var width = d3.select(element[0]).node().offsetWidth;
-          var height = width;
-          var radius = Math.min(width, height) / 2;
-          var donutWidth = 75;
-          var legendRectSize = 18;
-          var legendSpacing = 4;
-          var color = d3.scaleOrdinal(d3.schemeCategory20b);
-
-          svg.attr('width', width)
-             .attr('height', height)
-
-          var g = svg.append('g')
-                     .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
-          // var svg = d3.select(element[0])
-          //   .append('svg')
-          //   .attr('width', width)
-          //   .attr('height', height)
-            // .append('g')
-            // .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
-
-
-          var arc = d3.arc()
-            .innerRadius(radius - donutWidth)
-            .outerRadius(radius);
-
-          var pie = d3.pie()
-            .value(function(d) {
-              d.enabled = true;
-              return d.value;
-            })
-            .sort(null);
-
-          var tooltip = d3.select(element[0])
-            .append('div')
-            .attr('class', 'tooltip');
-
-          tooltip.append('div')
-            .attr('class', 'key');
-
-          tooltip.append('div')
-            .attr('class', 'value');
-
-          tooltip.append('div')
-            .attr('class', 'percent');
-
-          console.log('HELLOOOOOOOO****')
-          console.log(svg)
-
-          var path = g.selectAll('path')
-            .data(pie(dataset))
-            .enter()
-            .append('path')
-            .attr('d', arc)
-            .attr('fill', function(d, i) {
-              return color(d.data.key);
-            })
-            .each(function(d) { this._current = d; });
-
-            path.on('mouseover', function(d) {
-              var total = d3.sum(dataset.map(function(d) {
-                console.log((d.enabled) ? d.value : 0)
-                return (d.enabled) ? d.value : 0;
-              }));
-              var percent = Math.round(1000 * d.data.value / total) / 10;
-              tooltip.select('.key').html(d.data.key);
-              tooltip.select('.value').html(d.data.value);
-              tooltip.select('.percent').html(percent + '%');
-              tooltip.style('display', 'block');
-            });
-
-            path.on('mouseout', function() {
-              tooltip.style('display', 'none');
-            });
-
-            path.on('mousemove', function(d) {
-              tooltip.style('top', (d3.event.layerY + 10) + 'px')
-              .style('left', (d3.event.layerX + 10) + 'px');
-            });
-
-          var legend = g.selectAll('.legend')
-            .data(color.domain())
-            .enter()
-            .append('g')
-            .attr('class', 'legend')
-            .attr('transform', function(d, i) {
-              var height = legendRectSize + legendSpacing;
-              var offset =  height * color.domain().length / 2;
-              var horz = -2 * legendRectSize;
-              var vert = i * height - offset;
-              return 'translate(' + horz + ',' + vert + ')';
-            });
-
-          legend.append('rect')
-            .attr('width', legendRectSize)
-            .attr('height', legendRectSize)
-            .style('fill', color)
-            .style('stroke', color)
-            .on('click', function(label) {
-              var rect = d3.select(this);
-              console.log(rect)
-              var enabled = true;
-              var totalEnabled = d3.sum(dataset.map(function(d) {
-                console.log((d.enabled) ? 1 : 0)
-                return (d.enabled) ? 1 : 0;
-              }));
-              if (rect.attr('class') === 'disabled') {
-                rect.attr('class', '');
-              } else {
-                if (totalEnabled < 2) return;
-                rect.attr('class', 'disabled');
-                enabled = false;
-              }
-              pie.value(function(d) {
-                if (d.key === label) d.enabled = enabled;
-                return (d.enabled) ? d.value : 0;
-              });
-              path = path.data(pie(dataset));
-              path.transition()
-              .duration(750)
-              .attrTween('d', function(d) {
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function(t) {
-                  return arc(interpolate(t));
-                };
-              });
-            });
-
-            legend.append('text')
-              .attr('x', legendRectSize + legendSpacing)
-              .attr('y', legendRectSize - legendSpacing)
-              .text(function(d) { return d; });
-          });
-        };
-      });
-    }};
-  }])
-
-
-  //
-  //
-  .directive('pieChart', ['d3Service', function(d3Service) {
-  return {
-    restrict: 'E',
-    scope: {
-      data: '='
-    },
-    link: function(scope, element, attrs) {
-      d3Service.d3().then(function(d3) {
-
-          var dataset = scope.data;
-          var width = d3.select(element[0]).node().offsetWidth;
-          var height = width;
-          var radius = Math.min(width, height) / 2;
-          var donutWidth = 75;
-          var legendRectSize = 18;
-          var legendSpacing = 4;
-          var color = d3.scaleOrdinal(d3.schemeCategory20b);
-          var svg = d3.select(element[0])
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .append('g')
-            .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
-
-          var arc = d3.arc()
-            .innerRadius(radius - donutWidth)
-            .outerRadius(radius);
-
-          var pie = d3.pie()
-            .value(function(d) {
-              d.enabled = true;
-              return d.value;
-            })
-            .sort(null);
-
-          var tooltip = d3.select(element[0])
-            .append('div')
-            .attr('class', 'tooltip');
-
-          tooltip.append('div')
-            .attr('class', 'key');
-
-          tooltip.append('div')
-            .attr('class', 'value');
-
-          tooltip.append('div')
-            .attr('class', 'percent');
-
-          var path = svg.selectAll('path')
-            .data(pie(dataset))
-            .enter()
-            .append('path')
-            .attr('d', arc)
-            .attr('fill', function(d, i) {
-              return color(d.data.key);
-            })
-            .each(function(d) { this._current = d; });
-
-            path.on('mouseover', function(d) {
-              var total = d3.sum(dataset.map(function(d) {
-                console.log((d.enabled) ? d.value : 0)
-                return (d.enabled) ? d.value : 0;
-              }));
-              var percent = Math.round(1000 * d.data.value / total) / 10;
-              tooltip.select('.key').html(d.data.key);
-              tooltip.select('.value').html(d.data.value);
-              tooltip.select('.percent').html(percent + '%');
-              tooltip.style('display', 'block');
-            });
-
-            path.on('mouseout', function() {
-              tooltip.style('display', 'none');
-            });
-
-            path.on('mousemove', function(d) {
-              tooltip.style('top', (d3.event.layerY + 10) + 'px')
-              .style('left', (d3.event.layerX + 10) + 'px');
-            });
-
-          var legend = svg.selectAll('.legend')
-            .data(color.domain())
-            .enter()
-            .append('g')
-            .attr('class', 'legend')
-            .attr('transform', function(d, i) {
-              var height = legendRectSize + legendSpacing;
-              var offset =  height * color.domain().length / 2;
-              var horz = -2 * legendRectSize;
-              var vert = i * height - offset;
-              return 'translate(' + horz + ',' + vert + ')';
-            });
-
-          legend.append('rect')
-            .attr('width', legendRectSize)
-            .attr('height', legendRectSize)
-            .style('fill', color)
-            .style('stroke', color)
-            .on('click', function(label) {
-              var rect = d3.select(this);
-              console.log(rect)
-              var enabled = true;
-              var totalEnabled = d3.sum(dataset.map(function(d) {
-                console.log((d.enabled) ? 1 : 0)
-                return (d.enabled) ? 1 : 0;
-              }));
-              if (rect.attr('class') === 'disabled') {
-                rect.attr('class', '');
-              } else {
-                if (totalEnabled < 2) return;
-                rect.attr('class', 'disabled');
-                enabled = false;
-              }
-              pie.value(function(d) {
-                if (d.key === label) d.enabled = enabled;
-                return (d.enabled) ? d.value : 0;
-              });
-              path = path.data(pie(dataset));
-              path.transition()
-              .duration(750)
-              .attrTween('d', function(d) {
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function(t) {
-                  return arc(interpolate(t));
-                };
-              });
-            });
-
-            legend.append('text')
-              .attr('x', legendRectSize + legendSpacing)
-              .attr('y', legendRectSize - legendSpacing)
-              .text(function(d) { return d; });
-            });
-    }};
-  }])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  .directive('dotsChart', ['d3Service', function(d3Service) {
     return {
+      // Restrict directive to be element as semantically more understandable
       restrict: 'E',
+      // Define isolate scope for bi-directional data-binding
       scope: {
         data: '='
       },
-      link: function(scope, element, attrs) {
+      // Add d3 code in link property
+      link: function(scope, element, attributes) {
+        // Call d3Service to access library
         d3Service.d3().then(function(d3) {
 
-              var margin = {top: 20, right: 20, bottom: 30, left: 40},
-              width = 960 - margin.left - margin.right,
-              height = 500 - margin.top - margin.bottom;
+          // Append responsive svg to directive element
+          var svg = d3.select(element[0])
+                      .append('svg')
+                      .style('width', '100%');
 
-              /*
-              * value accessor - returns the value to encode for a given data object.
-              * scale - maps value to a visual display encoding, such as a pixel position.
-              * map function - maps from data value to display value
-              * axis - sets up axis
-              */
+          // Define margin, bar-height and bar-padding to customize properties svg
+          var margin = parseInt(attributes.margin) || 20;
 
-              // setup x
-              var xValue = function(d) { return parseFloat(d.Paid_fare);}, // data -> value
-              xScale = d3.scaleLinear().range([0, width]), // value -> display
-              xMap = function(d) { return xScale(xValue(d)); }, // data -> display
-              xAxis = d3.axisBottom().scale(xScale);
+          // Define browser resize event to check for window size changes for re-rendering
+          $window.onresize = function() {
+            scope.$apply();
+          };
 
-              // setup y
-              var yValue = function(d) { return parseFloat(d.Paid_fare);}, // data -> value
-              yScale = d3.scaleLinear().range([height, 0]), // value -> display
-              yMap = function(d) { return yScale(yValue(d)); }, // data -> display
-              yAxis = d3.axisLeft().scale(yScale);
+          // Define watcher to check size of directive parent element for re-rendering
+          scope.$watch(function() {
+            return angular.element($window)[0].innerWidth;
+          }, function() {
+            scope.render(scope.data);
+          });
 
-              // setup fill color
-              var cValue = function(d) { return d.Supplier_name;},
-                  color = d3.scaleOrdinal(d3.schemeCategory10);
+          // Define watcher to check input data changes for re-rendering
+          scope.$watch('data', function(newValues, oldValues) {
+            return scope.render(newValues);
+          }, true);
 
-              // add the graph canvas to the body of the webpage
-              var svg = d3.select(element[0]).append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-              .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          // Define render function to apply changes
+          scope.render = function(dataset) {
+            // If no data is passed stop render functionalty
+            if (!dataset) return;
 
-              // add the tooltip area to the webpage
-              var tooltip = d3.select(element[0]).append("div")
-              .attr("class", "tooltip")
-              .style("opacity", 0);
+            // Before render new data, remove all previous svg elements
+            svg.selectAll('*').remove();
 
-              // load data
-              d3.csv('./assets/dataset/home_office_air_travel_data_2011.csv', function(error, data) {
+            // Set timeout to avoid rendering issues caused by width calcuations
+            $timeout(function() {
 
-                // change string (from CSV) into number format
-                data.forEach(function(d) {
-                  d.Paid_fare = +parseFloat(d.Paid_fare);
-                  d["Paid_fare (g)"] = +parseFloat(d.Paid_fare);
-                  //    console.log(d);
-                });
+              // Define responsive properties and set d3 colors
+              var width           = d3.select(element[0]).node().offsetWidth - margin;
+              var height          = width;
+              var radius          = Math.min(width, height) / 2;
+              var donutWidth      = radius / 3;
+              var legendRectSize  = 20;
+              var legendSpacing   = 5;
+              var color           = d3.scaleOrdinal(d3.schemeCategory20);
 
-                // don't want dots overlapping axis, so add in buffer to data domain
-                xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
-                yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
+              // Apply responsive properties to svg
+              svg.attr('width', width)
+                 .attr('height', height);
 
-                // x-axis
-                svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
-                .append("text")
-                .attr("class", "label")
-                .attr("x", width)
-                .attr("y", -6)
-                .style("text-anchor", "end")
-                .text("Paid_fare");
+              // Append inner container to svg and apply transform
+              var g = svg.append('g')
+                         .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
 
-                // y-axis
-                svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-                .append("text")
-                .attr("class", "label")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Paid_fare (g)");
+              // Define arc shape angles based on radious and pie hole width
+              var arc = d3.arc()
+                          .innerRadius(radius - donutWidth)
+                          .outerRadius(radius);
 
-                // draw dots
-                svg.selectAll(".dot")
-                .data(data)
-                .enter().append("circle")
-                .attr("class", "dot")
-                .attr("r", 3.5)
-                .attr("cx", xMap)
-                .attr("cy", yMap)
-                .style("fill", function(d) { return color(cValue(d));})
-                .on("mouseover", function(d) {
-                  tooltip.transition()
-                  .duration(200)
-                  .style("opacity", .9);
-                  tooltip.html(d["Cereal Name"] + "<br/> (" + xValue(d)
-                  + ", " + yValue(d) + ")")
-                  .style("left", (d3.event.pageX + 5) + "px")
-                  .style("top", (d3.event.pageY - 28) + "px");
-                })
-                .on("mouseout", function(d) {
-                  tooltip.transition()
-                  .duration(500)
-                  .style("opacity", 0);
-                });
+              // Define pie based on data vlues and set pie elements as visible
+              var pie = d3.pie()
+                          .value(function(d) {
+                            d.enabled = true;
+                            return d.value;
+                          })
+                          .sort(null);
 
-                // draw legend
-                var legend = svg.selectAll(".legend")
-                .data(color.domain())
-                .enter().append("g")
-                .attr("class", "legend")
-                .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+              // Define tooltips to display info on mouse over event
+              var tooltip = d3.select(element[0])
+                              .append('div')
+                              .attr('class', 'tooltip');
 
-                // draw legend colored rectangles
-                legend.append("rect")
-                .attr("x", width - 18)
-                .attr("width", 18)
-                .attr("height", 18)
-                .style("fill", color);
+              tooltip.append('div')
+                     .attr('class', 'key');
 
-                // draw legend text
-                legend.append("text")
-                .attr("x", width - 24)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "end")
-                .text(function(d) { return d;})
+              tooltip.append('div')
+                     .attr('class', 'value');
+
+              tooltip.append('div')
+                     .attr('class', 'percent');
+
+              // Append paths to container within svg based on data and arc values and fill with colors
+              var path = g.selectAll('path')
+                          .data(pie(dataset))
+                          .enter()
+                          .append('path')
+                          .attr('d', arc)
+                          .attr('fill', function(d, i) {
+                            return color(d.data.key);
+                          })
+                          .each(function(d) {
+                            this._current = d;
+                          });
+
+              // Define mouse over event to display tooltips with info based on currently selected pie elements
+              path.on('mouseover', function(d) {
+                var total = d3.sum(dataset.map(function(d) {
+                  return (d.enabled) ? d.value : 0;
+                }));
+                var percent = Math.round(1000 * d.data.value / total) / 10;
+                tooltip.select('.key').html(d.data.key);
+                tooltip.select('.value').html(d.data.value);
+                tooltip.select('.percent').html(percent + '%');
+                tooltip.style('display', 'block');
               });
 
+              // Define mouse out event to hide tooltip
+              path.on('mouseout', function() {
+                tooltip.style('display', 'none');
+              });
+
+              // Define mouse move event to move around tooltip based on cursor position
+              path.on('mousemove', function(d) {
+                tooltip.style('top', (d3.event.layerY + 10) + 'px')
+                       .style('left', (d3.event.layerX + 10) + 'px');
+              });
+
+              // Define and append legends to display pie elements keys
+              var legend = g.selectAll('.legend')
+                            .data(color.domain())
+                            .enter()
+                            .append('g')
+                            .attr('class', 'legend')
+                            .attr('transform', function(d, i) {
+                              var height  = legendRectSize + legendSpacing;
+                              var offset  =  height * color.domain().length / 2;
+                              var horz    = -2 * legendRectSize;
+                              var vert    = i * height - offset;
+                              return 'translate(' + horz + ',' + vert + ')';
+                            });
+
+              // Append legends rect elements and define cick functionality to show and hide pie sections with transition
+              legend.append('rect')
+                    .attr('width', legendRectSize)
+                    .attr('height', legendRectSize)
+                    .style('fill', color)
+                    .style('stroke', color)
+                    .on('click', function(label) {
+                      var rect          = d3.select(this);
+                      var enabled       = true;
+                      var totalEnabled  = d3.sum(dataset.map(function(d) {
+                        return (d.enabled) ? 1 : 0;
+                      }));
+                      if (rect.attr('class') === 'disabled') {
+                        rect.attr('class', '');
+                      } else {
+                        if (totalEnabled < 2) return;
+                        rect.attr('class', 'disabled');
+                        enabled = false;
+                      }
+                      pie.value(function(d) {
+                        if (d.key === label) d.enabled = enabled;
+                        return (d.enabled) ? d.value : 0;
+                      });
+                      path = path.data(pie(dataset));
+                      path.transition()
+                          .duration(500)
+                          .attrTween('d', function(d) {
+                            var interpolate = d3.interpolate(this._current, d);
+                            this._current   = interpolate(0);
+                            return function(t) {
+                              return arc(interpolate(t));
+                            };
+                          });
+                    });
+
+              // Append pie element key names to legends
+              legend.append('text')
+                .attr('x', legendRectSize + legendSpacing)
+                .attr('y', legendRectSize - legendSpacing)
+                .text(function(d) {
+                  return d;
+                });
+            });
+          };
         });
-      }};
+      }
+    };
   }])
 
   .directive('planeLogo', ['d3Service', function(d3Service) {

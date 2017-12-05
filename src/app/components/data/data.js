@@ -24,10 +24,10 @@ angular
       departureLocations: data.Departure,
       arrivalLocations: data.Destination,
       directorate: data.Directorate.filter(function(obj) {
-        return obj.score >= 100;
+        return obj.value >= 100;
       }),
       airlines: data.Supplier_name.filter(function(obj) {
-        return obj.score >= 100;
+        return obj.value >= 20;
       }),
       farePrices: data.Paid_fare,
       ticketClasses: data.Ticket_class_description
