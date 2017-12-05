@@ -80058,21 +80058,26 @@ angular.module('myApp.d3Directives', ['d3'])
           // Define render function to apply changes
           scope.render = function(data) {
 
-            // Before rendere new data, remove all previous svg elements
-            svg.selectAll('*').remove();
-
-            // If we don't pass any data, return out of the element
+            // If no data is passed stop render functionalty
             if (!data) return;
 
-            // Calculate width and height, setup multicolor support and define adaptive horizonal scale based on data values
-            var width   = d3.select(element[0]).node().offsetWidth - margin;
-            var height  = scope.data.length * (barHeight + barPadding);
-            var color   = d3.scaleOrdinal(d3.schemeCategory20);
-            var xScale  = d3.scaleLinear()
-                            .domain([0, d3.max(data, function(d) {
-                              return d.score;
-                            })])
-                            .range([0, width]);
+            // Before render new data, remove all previous svg elements
+            svg.selectAll('*').remove();
+
+            // Calculate width and height
+            // Define transition duations for bar and text elements
+            // Setup multicolor support
+            // define adaptive horizonal scale based on data values
+            var width         = d3.select(element[0]).node().offsetWidth - margin;
+            var height        = scope.data.length * (barHeight + barPadding);
+            var barDuration   = 1000;
+            var textDuration  = 400;
+            var color         = d3.scaleOrdinal(d3.schemeCategory20);
+            var xScale        = d3.scaleLinear()
+                                .domain([0, d3.max(data, function(d) {
+                                  return d.score;
+                                })])
+                                .range([0, width]);
 
             // Set new height based on calculations
             svg.attr('height', height);
@@ -80080,9 +80085,12 @@ angular.module('myApp.d3Directives', ['d3'])
             // Generate rectangles for bar chart
             svg.selectAll('rect')
                .data(data).enter()
+               // Append rectangle elements to svg based on data
                .append('rect')
+               // Define
                .attr('height', barHeight)
                .attr('width', 5)
+               // Define positioning of bars based on margin, bar-height and bar-padding
                .attr('x', Math.round(margin/2))
                .attr('y', function(d, i) {
                  return i * (barHeight + barPadding);
@@ -80095,12 +80103,37 @@ angular.module('myApp.d3Directives', ['d3'])
                .on('click', function(d, i) {
                  return scope.onClick({item: d});
                })
+               // Apply smooth transition
                .transition()
-               .duration(1000)
+               // Define transition duration
+               .duration(barDuration)
                // Scale bars width based on data values
                .attr('width', function(d) {
                  return xScale(d.score);
                });
+
+            // Generate text labels for bar chart
+            svg.selectAll('text')
+               .data(data).enter()
+               // Append text elements to svg based on data
+               .append('text')
+               // Display text value based on data
+               .text(function(d, i) {
+                 return d.name + ': ' + d.score;
+               })
+               // Define color and dynamic positioning of text elements
+               .attr('fill', '#FFFFFF')
+               .attr('x', 15)
+               .attr('y', function(d, i) {
+                 return i * (barHeight + barPadding) + (barHeight / 2 + barPadding);
+               })
+               // Set initial opacity to zero to hide text elements
+               .style('opacity', 0)
+               // Set smooth transition to fade in text elements after cretion of bars
+               .transition()
+               .style('opacity', 1)
+               .delay(barDuration)
+               .duration(textDuration)
           };
         });
       }};
