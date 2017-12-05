@@ -1,7 +1,7 @@
 @import 'variables';
 
 .hm-wrapper {
-  background: linear-gradient(to top, #076585, #fff);
+  background: linear-gradient(to top, $blue, $white);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,11 +42,11 @@
     z-index: -1;
 
     @keyframes scale-toggle {
-      0%   {
+      0% {
         opacity: 0.2;
         transform: translateY(-50%) scale(1);
       }
-      50%   {
+      50% {
         opacity: 0.05;
         transform: translateY(-50%) scale(1.6);
       }
@@ -57,16 +57,19 @@
     }
   }
 
+
   .hm-description {
     color: $white;
     font-family: 'Ubuntu', sans-serif;
   }
 
+
   .hd-button {
-    color: $black;
     background-color: $white;
+    color: $black;
 
     &:hover {
+      background-color: $transparent-blue;
       color: $white;
     }
   }
@@ -75,12 +78,13 @@
     bottom: 5px;
     color: $white;
     font-size: 10px;
-    position: absolute;
     left: 0;
     opacity: 0.5;
+    position: absolute;
     right: 0;
     text-align: center;
   }
+
 
   .hm-bar {
     bottom: 0;
@@ -92,7 +96,7 @@
     }
 
     .md-bar {
-      background-color: #076585;
+      background-color: $blue;
     }
   }
 

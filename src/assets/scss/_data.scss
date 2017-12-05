@@ -3,8 +3,7 @@
 .dt-wrapper {
   min-height: calc(100vh - 80px);
   padding-top: 80px;
-  background: linear-gradient(to top, #ece9e6, #ffffff);
-  background: #ece9e6;
+  background-color: $grey;
 
   .dt-grid-tile {
     overflow: hidden;
@@ -61,4 +60,27 @@
        width: 70%;
      }
    }
+}
+
+
+.dtc-wrapper {
+  min-height: calc(100vh - 80px);
+  padding-top: 80px;
+  background-color: $grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .dtc-title {
+    color: $transparent-blue;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 60px;
+    margin: 0 auto 20px auto;
+  }
+
+  @media screen and (max-width: 600px) {
+    .dtc-title {
+      font-size: 40px;
+    }
+  }
 }

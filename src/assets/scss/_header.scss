@@ -7,18 +7,19 @@
 
   &.md-primary {
     background-color: $white;
-    // border-bottom: 1px solid #f3f3f3;
     box-shadow: 0 1px 4px rgba(0,0,0,.22);
     min-height: 0;
   }
+
 
   .hd-primary {
     height: 50px;
     min-height: 0;
   }
 
+
   .hd-secondary {
-    border-top: 1px solid #f3f3f3;
+    border-top: 1px solid $light-grey;
     height: 30px;
     padding: 0 16px;
 
@@ -39,16 +40,17 @@
     }
   }
 
-  .hd-navbar {
 
+  .hd-navbar {
     height: 100%;
   }
+
 
   .hd-sublink {
     color: $black;
 
     &.hd-active .md-button {
-      background-color: rgba(0, 0, 0, 0.12);
+      background-color: $transparent-grey;
     }
 
     &:first-of-type .md-button {
@@ -64,12 +66,14 @@
     }
   }
 
+
   .hd-title {
     color: $black;
     cursor: pointer;
     font-family: 'Ubuntu', sans-serif;
     margin-right: 25px;
   }
+
 
   .hd-button {
     color: $black;
@@ -81,7 +85,7 @@
     text-transform: capitalize;
 
     &.hd-active {
-      background-color: rgba(0,0,0,0.12);
+      background-color: $transparent-grey;
     }
   }
 
@@ -97,10 +101,11 @@
     }
 
     svg {
-      width: 100%;
       height: 100%;
+      width: 100%;
     }
   }
+
 
   @media screen and (max-width: 600px) {
     .hd-github {
