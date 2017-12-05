@@ -20,7 +20,7 @@ gulp.task('scripts', function() {
     // .pipe(buffer())
     // .pipe(uglify({ mangle: false }))
     .pipe(rename('bundle.js'))
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('scss', function() {
