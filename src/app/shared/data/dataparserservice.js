@@ -56,8 +56,8 @@ angular
             for (var key in recurrenceTempObject) {
               if (recurrenceTempObject.hasOwnProperty(key)) {
                 var recurrenceSubObject = {
-                  value: key,
-                  score: recurrenceTempObject[key]
+                  key: key,
+                  value: recurrenceTempObject[key]
                 };
                 dataFull[n].recurrence.push(recurrenceSubObject);
               }
