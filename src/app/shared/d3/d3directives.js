@@ -241,6 +241,12 @@ angular
                             this._current = d;
                           });
 
+              // Define fade in animation for pie and legends
+              g.style('opacity', 0)
+               .transition()
+               .style('opacity', 1)
+               .duration(1000);
+
               // Define mouse over event to display tooltips with info based on currently selected pie elements
               path.on('mouseover', function(d) {
                 var total = d3.sum(dataset.map(function(d) {
