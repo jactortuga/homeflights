@@ -79993,6 +79993,136 @@ angular.module('myApp.home', [])
 
 },{}],14:[function(require,module,exports){
 angular.module('myApp.d3Directives', ['d3'])
+
+  .directive('d3Bar', ['d3Service', '$window', function(d3Service, $window) {
+    return {
+      // Restrict directive to be element as semantically more understandable
+      restrict: 'E',
+      // Add d3 code in link property
+      link: function(scope, element, attributes) {
+        // Call d3Service to access library
+        d3Service.d3().then(function(d3) {
+          console.log('D3 INJECTED');
+
+          // hard-code data
+          scope.data = [
+            {name: 'Greg', score: 98},
+            {name: 'Ari', score: 96},
+            {name: 'Q', score: 75},
+            {name: 'Loser', score: 48}
+          ];
+
+          // Append responsive svg to directive element
+          var svg = d3.select(element[0])
+                      .append('svg')
+                      .style('width', '100%');
+
+          // Define margin, bar-height and bar-padding to customize properties svg
+          var margin      = parseInt(attributes.margin) || 20;
+          var barHeight   = parseInt(attributes.barHeight) || 20;
+          var barPadding  = parseInt(attributes.barPadding) || 5;
+
+          // Define browser resize event watcher to apply change to scope
+          $window.onresize = function() {
+            scope.$apply();
+          };
+
+          // Define watcher to check size of directive parent element for re-rendering
+          // d3.select(ele[0]).node().offsetWidth
+          scope.$watch(function() {
+            return angular.element($window)[0].innerWidth;
+          }, function() {
+            scope.render(scope.data);
+          });
+
+          // Define render function to apply changes
+          scope.render = function(data) {
+
+            // Before rendere new data, remove all previous svg elements
+            svg.selectAll('*').remove();
+
+            // If we don't pass any data, return out of the element
+            if (!data) return;
+
+            // Calculate width and height use setup multicolor support
+            var width   = d3.select(element[0]).node().offsetWidth - margin;
+            var height  = scope.data.length * (barHeight + barPadding);
+            var color   = d3.scaleOrdinal(d3.schemeCategory20);
+            var xScale  = d3.scaleLinear()
+                            .domain([0, d3.max(data, function(d) {
+                              return d.score;
+                            })])
+                            .range([0, width]);
+
+            // Set new height based on calculations
+            svg.attr('height', height);
+
+            // Generate rectangles for bar chart
+            svg.selectAll('rect')
+               .data(data).enter()
+               .append('rect')
+               .attr('height', barHeight)
+               .attr('width', 140)
+               .attr('x', Math.round(margin/2))
+               .attr('y', function(d,i) {
+                 return i * (barHeight + barPadding);
+               })
+               .attr('fill', function(d) {
+                 return color(d.score);
+               })
+               .transition()
+               .duration(1000)
+               .attr('width', function(d) {
+                 return xScale(d.score);
+               });
+          };
+        });
+      }};
+  }])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .directive('barsChart', ['d3Service', function(d3Service) {
   return {
     restrict: 'E',
