@@ -79869,72 +79869,74 @@ require('./shared/data/dataparserservice.js');
 require('./shared/d3/d3service.js');
 require('./shared/d3/d3directives.js');
 
-var app = angular.module('myApp', ['ui.router', 'ngMaterial', 'myApp.home', 'myApp.about', 'myApp.data', 'myApp.header', 'myApp.dataParser', 'myApp.d3Directives']);
+var app = angular.module('HomeFlights', ['ui.router', 'ngMaterial', 'HomeFlights.home', 'HomeFlights.about', 'HomeFlights.data', 'HomeFlights.header', 'HomeFlights.dataParser', 'HomeFlights.d3Directives']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
-	$urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/');
 
-	$stateProvider
-	.state('home', {
-		url: '/',
-		views: {
-			'' : {
-				templateUrl: 'app/components/home/home.html'
-			},
-			'header@home': {
-				templateUrl: 'app/shared/header/header.html'
-			}
-		}
-	})
+	// Home State
+  $stateProvider
+  .state('home', {
+    url: '/',
+    views: {
+      '': {
+        templateUrl: 'app/components/home/home.html'
+      },
+      'header@home': {
+        templateUrl: 'app/shared/header/header.html'
+      }
+    }
+  })
 
-	.state('about', {
-		url: '/about',
-		views: {
-			'' : {
-				templateUrl: 'app/components/about/about.html'
-			},
-			'header@about': {
-				templateUrl: 'app/shared/header/header.html'
-			}
-		}
-	})
+	// About State
+  .state('about', {
+    url: '/about',
+    views: {
+      '': {
+        templateUrl: 'app/components/about/about.html'
+      },
+      'header@about': {
+        templateUrl: 'app/shared/header/header.html'
+      }
+    }
+  })
 
-	.state('data', {
-		url: '/data',
-		cache: false,
-		abstract: true,
-		views: {
-			'': {
-				templateUrl: 'app/components/data/data.html'
-			},
-			'header@data': {
-				templateUrl: 'app/shared/header/header.html'
-			}
-		}
-	})
-
-	.state('data.overview', {
-		url: '/overview',
-		views: {
-			'': {
-				templateUrl: 'app/components/data/data-overview.html'
-			}
-		}
-	})
-
-	.state('data.costs', {
-		url: '/costs',
-		views: {
-			'': {
-				templateUrl: 'app/components/data/data-costs.html'
-			}
-		}
-	});
+	// Data State
+  .state('data', {
+    url: '/data',
+    cache: false,
+    abstract: true,
+    views: {
+      '': {
+        templateUrl: 'app/components/data/data.html'
+      },
+      'header@data': {
+        templateUrl: 'app/shared/header/header.html'
+      }
+    }
+  })
+  .state('data.overview', {
+    url: '/overview',
+    views: {
+      '': {
+        templateUrl: 'app/components/data/data-overview.html'
+      }
+    }
+  })
+  .state('data.costs', {
+    url: '/costs',
+    views: {
+      '': {
+        templateUrl: 'app/components/data/data-costs.html'
+      }
+    }
+  });
+	
 });
 
 },{"./components/about/about.js":11,"./components/data/data.js":12,"./components/home/home.js":13,"./shared/d3/d3directives.js":14,"./shared/d3/d3service.js":15,"./shared/data/dataparserservice.js":16,"./shared/header/header.js":17,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
 angular
-  .module('myApp.about', [])
+  .module('HomeFlights.about', [])
   .controller('aboutCtrl',[function(){
     this.title              = 'About';
     this.descriptionProject = 'HomeFlights is an ongoing digital project that aims at easing the task of tracking flights information and expenses of the UK Home Office and its agencies through data visualisation. The goal is ultimately to make large amounts of data more understandable through different types of interactive charts and graphs.';
@@ -79944,7 +79946,7 @@ angular
 
 },{}],12:[function(require,module,exports){
 angular
-  .module('myApp.data', [])
+  .module('HomeFlights.data', [])
   .controller('dataCtrl',['dataParserService', '$scope', function(dataParserService, $scope) {
 
     $scope.d3Data = {};
@@ -79976,7 +79978,7 @@ angular
 
 },{}],13:[function(require,module,exports){
 angular
-  .module('myApp.home', [])
+  .module('HomeFlights.home', [])
   .controller('homeCtrl',[function(){
     this.title 				= 'HomeFlights';
     this.description 	= 'Keeping track of flight data for the UK Home Office and its agencies through visualisation';
@@ -79986,7 +79988,7 @@ angular
 
 },{}],14:[function(require,module,exports){
 angular
-  .module('myApp.d3Directives', ['d3'])
+  .module('HomeFlights.d3Directives', ['d3'])
 
   // d3 directive to generate bar charts
   .directive('d3Bar', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {
@@ -80427,7 +80429,7 @@ angular
 
 },{}],16:[function(require,module,exports){
 angular
-.module('myApp.dataParser', [])
+.module('HomeFlights.dataParser', [])
 .factory('dataParserService', ['$http', function($http){
   return {
     getData: function() {
@@ -80509,7 +80511,7 @@ angular
 
 },{}],17:[function(require,module,exports){
 angular
-  .module('myApp.header', [])
+  .module('HomeFlights.header', [])
   .controller('headerCtrl',['$location', '$window', function($location, $window){
     var githubLink      = 'https://github.com/jactortuga/homeflights';
     var currentPath     = $location.path();

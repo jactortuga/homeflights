@@ -9,6 +9,11 @@
     overflow: hidden;
   }
 
+  .dt-grid-title {
+    font-size: 18px;
+    text-transform: capitalize;
+  }
+
   d3-bar {
     width: 95%;
   }

@@ -1,5 +1,5 @@
 angular
-  .module('myApp.about', [])
+  .module('HomeFlights.about', [])
   .controller('aboutCtrl',[function(){
     this.title              = 'About';
     this.descriptionProject = 'HomeFlights is an ongoing digital project that aims at easing the task of tracking flights information and expenses of the UK Home Office and its agencies through data visualisation. The goal is ultimately to make large amounts of data more understandable through different types of interactive charts and graphs.';

@@ -1,5 +1,5 @@
 angular
-  .module('myApp.home', [])
+  .module('HomeFlights.home', [])
   .controller('homeCtrl',[function(){
     this.title 				= 'HomeFlights';
     this.description 	= 'Keeping track of flight data for the UK Home Office and its agencies through visualisation';

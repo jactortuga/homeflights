@@ -1,5 +1,5 @@
 angular
-  .module('myApp.data', [])
+  .module('HomeFlights.data', [])
   .controller('dataCtrl',['dataParserService', '$scope', function(dataParserService, $scope) {
 
     $scope.d3Data = {};

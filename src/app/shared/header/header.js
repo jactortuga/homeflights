@@ -1,5 +1,5 @@
 angular
-  .module('myApp.header', [])
+  .module('HomeFlights.header', [])
   .controller('headerCtrl',['$location', '$window', function($location, $window){
     var githubLink      = 'https://github.com/jactortuga/homeflights';
     var currentPath     = $location.path();

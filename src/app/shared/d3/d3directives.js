@@ -1,5 +1,5 @@
 angular
-  .module('myApp.d3Directives', ['d3'])
+  .module('HomeFlights.d3Directives', ['d3'])
 
   // d3 directive to generate bar charts
   .directive('d3Bar', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {

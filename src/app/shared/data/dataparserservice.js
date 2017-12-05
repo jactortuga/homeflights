@@ -1,5 +1,5 @@
 angular
-.module('myApp.dataParser', [])
+.module('HomeFlights.dataParser', [])
 .factory('dataParserService', ['$http', function($http){
   return {
     getData: function() {
