@@ -147,23 +147,15 @@ angular
     link: function(scope, element, attributes) {
       // Call d3Service to access library
       d3Service.d3().then(function(d3) {
-        console.log('D3 PIE INJECTED');
-
-
-
-        // Append responsive svg to directive element
+        //
         var svg = d3.select(element[0])
                     .append('svg')
                     .style('width', '100%');
-                    // .attr('width', width)
-                    // .attr('height', height)
-                    // .append('g')
-                    // .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
-
-        // Define margin, bar-height and bar-padding to customize properties svg
-        var margin      = parseInt(attributes.margin) || 20;
-        var barHeight   = parseInt(attributes.barHeight) || 20;
-        var barPadding  = parseInt(attributes.barPadding) || 5;
+        //
+        // // Define margin, bar-height and bar-padding to customize properties svg
+        // var margin      = parseInt(attributes.margin) || 20;
+        // var barHeight   = parseInt(attributes.barHeight) || 20;
+        // var barPadding  = parseInt(attributes.barPadding) || 5;
 
         // Define browser resize event to check for window size changes for re-rendering
         $window.onresize = function() {
@@ -194,18 +186,27 @@ angular
           $timeout(function() {
 
 
-          var width           = d3.select(element[0]).node().offsetWidth;
-          var height          = width;
-          var radius          = Math.min(width, height) / 2;
-          var donutWidth      = 75;
-          var legendRectSize  = 18;
-          var legendSpacing   = 4;
+          var dataset = data;
+          var width = d3.select(element[0]).node().offsetWidth;
+          var height = width;
+          var radius = Math.min(width, height) / 2;
+          var donutWidth = 75;
+          var legendRectSize = 18;
+          var legendSpacing = 4;
           var color = d3.scaleOrdinal(d3.schemeCategory20b);
 
           svg.attr('width', width)
              .attr('height', height)
-             .append('g')
-             .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+
+          var g = svg.append('g')
+                     .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+          // var svg = d3.select(element[0])
+          //   .append('svg')
+          //   .attr('width', width)
+          //   .attr('height', height)
+            // .append('g')
+            // .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+
 
           var arc = d3.arc()
             .innerRadius(radius - donutWidth)
@@ -214,7 +215,7 @@ angular
           var pie = d3.pie()
             .value(function(d) {
               d.enabled = true;
-              return d.score;
+              return d.value;
             })
             .sort(null);
 
@@ -231,26 +232,27 @@ angular
           tooltip.append('div')
             .attr('class', 'percent');
 
-          var path = svg.selectAll('path')
-            .data(pie(data))
+          console.log('HELLOOOOOOOO****')
+          console.log(svg)
+
+          var path = g.selectAll('path')
+            .data(pie(dataset))
             .enter()
             .append('path')
             .attr('d', arc)
             .attr('fill', function(d, i) {
-              console.log('path')
-              console.log(d.data.value)
-              return color(d.data.value);
+              return color(d.data.key);
             })
             .each(function(d) { this._current = d; });
 
             path.on('mouseover', function(d) {
-              var total = d3.sum(data.map(function(d) {
-                console.log((d.enabled) ? d.score : 0)
-                return (d.enabled) ? d.score : 0;
+              var total = d3.sum(dataset.map(function(d) {
+                console.log((d.enabled) ? d.value : 0)
+                return (d.enabled) ? d.value : 0;
               }));
-              var percent = Math.round(1000 * d.data.score / total) / 10;
-              tooltip.select('.key').html(d.data.value);
-              tooltip.select('.value').html(d.data.score);
+              var percent = Math.round(1000 * d.data.value / total) / 10;
+              tooltip.select('.key').html(d.data.key);
+              tooltip.select('.value').html(d.data.value);
               tooltip.select('.percent').html(percent + '%');
               tooltip.style('display', 'block');
             });
@@ -264,7 +266,7 @@ angular
               .style('left', (d3.event.layerX + 10) + 'px');
             });
 
-          var legend = svg.selectAll('.legend')
+          var legend = g.selectAll('.legend')
             .data(color.domain())
             .enter()
             .append('g')
@@ -286,7 +288,7 @@ angular
               var rect = d3.select(this);
               console.log(rect)
               var enabled = true;
-              var totalEnabled = d3.sum(data.map(function(d) {
+              var totalEnabled = d3.sum(dataset.map(function(d) {
                 console.log((d.enabled) ? 1 : 0)
                 return (d.enabled) ? 1 : 0;
               }));
@@ -298,10 +300,10 @@ angular
                 enabled = false;
               }
               pie.value(function(d) {
-                if (d.value === label) d.enabled = enabled;
-                return (d.enabled) ? d.score : 0;
+                if (d.key === label) d.enabled = enabled;
+                return (d.enabled) ? d.value : 0;
               });
-              path = path.data(pie(data));
+              path = path.data(pie(dataset));
               path.transition()
               .duration(750)
               .attrTween('d', function(d) {

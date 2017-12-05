@@ -7,13 +7,12 @@
 		</md-grid-tile>
 
 		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-sm="1">
-			<!-- <pie-chart data="'Destination'"></pie-chart> -->
 			<d3-pie data="d3Data.arrivalLocations" on-click="dt.d3BarClick(item)"></d3-pie>
-			<md-grid-tile-footer><h3>Destination locations</h3></md-grid-tile-footer>
+			<md-grid-tile-footer><h3>Arrival locations</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
 		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-sm="1">
-			<pie-chart data="d3Data.arrivalLocations"></pie-chart>
+			<d3-pie data="d3Data.departureLocations" on-click="dt.d3BarClick(item)"></d3-pie>
 			<md-grid-tile-footer><h3>Departure locations</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
@@ -28,7 +27,7 @@
 		</md-grid-tile>
 
 		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-sm="1">
-			<pie-chart data="d3Data.ticketClasses"></pie-chart>
+			<d3-pie data="d3Data.ticketClasses" on-click="dt.d3BarClick(item)"></d3-pie>
 			<md-grid-tile-footer><h3>Types of ticket class</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
