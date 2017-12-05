@@ -79947,6 +79947,15 @@ angular.module('myApp.data', [])
 
 .controller('dataCtrl',['$http', function($http){
 	this.dataText = 'This is the data component!';
+
+	this.greeting = "Resize the page to see the re-rendering";
+	this.d3Data = [
+		{name: 'Greg', score: 98},
+		{name: 'Ari', score: 96},
+		{name: 'Q', score: 75},
+		{name: 'Loser', score: 48}
+	]
+
 	// $http({
 	// 	method: 'GET',
 	// 	url: './assets/dataset/home_office_air_travel_data_2011.csv'
@@ -79998,19 +80007,15 @@ angular.module('myApp.d3Directives', ['d3'])
     return {
       // Restrict directive to be element as semantically more understandable
       restrict: 'E',
+      // Define isolate scope for bi-directional data-binding
+      scope: {
+        data: '='
+      },
       // Add d3 code in link property
       link: function(scope, element, attributes) {
         // Call d3Service to access library
         d3Service.d3().then(function(d3) {
           console.log('D3 INJECTED');
-
-          // hard-code data
-          scope.data = [
-            {name: 'Greg', score: 98},
-            {name: 'Ari', score: 96},
-            {name: 'Q', score: 75},
-            {name: 'Loser', score: 48}
-          ];
 
           // Append responsive svg to directive element
           var svg = d3.select(element[0])
@@ -80022,18 +80027,22 @@ angular.module('myApp.d3Directives', ['d3'])
           var barHeight   = parseInt(attributes.barHeight) || 20;
           var barPadding  = parseInt(attributes.barPadding) || 5;
 
-          // Define browser resize event watcher to apply change to scope
+          // Define browser resize event to check for window size changes for re-rendering
           $window.onresize = function() {
             scope.$apply();
           };
 
           // Define watcher to check size of directive parent element for re-rendering
-          // d3.select(ele[0]).node().offsetWidth
           scope.$watch(function() {
             return angular.element($window)[0].innerWidth;
           }, function() {
             scope.render(scope.data);
           });
+
+          // Define watcher to check input data changes for re-rendering
+          scope.$watch('data', function(newValues, oldValues) {
+            return scope.render(newValues);
+          }, true);
 
           // Define render function to apply changes
           scope.render = function(data) {
@@ -80044,7 +80053,7 @@ angular.module('myApp.d3Directives', ['d3'])
             // If we don't pass any data, return out of the element
             if (!data) return;
 
-            // Calculate width and height use setup multicolor support
+            // Calculate width and height, setup multicolor support and define adaptive horizonal scale based on data values
             var width   = d3.select(element[0]).node().offsetWidth - margin;
             var height  = scope.data.length * (barHeight + barPadding);
             var color   = d3.scaleOrdinal(d3.schemeCategory20);
@@ -80062,9 +80071,9 @@ angular.module('myApp.d3Directives', ['d3'])
                .data(data).enter()
                .append('rect')
                .attr('height', barHeight)
-               .attr('width', 140)
+               .attr('width', 5)
                .attr('x', Math.round(margin/2))
-               .attr('y', function(d,i) {
+               .attr('y', function(d, i) {
                  return i * (barHeight + barPadding);
                })
                .attr('fill', function(d) {

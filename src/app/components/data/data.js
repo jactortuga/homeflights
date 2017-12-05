@@ -2,6 +2,15 @@ angular.module('myApp.data', [])
 
 .controller('dataCtrl',['$http', function($http){
 	this.dataText = 'This is the data component!';
+
+	this.greeting = "Resize the page to see the re-rendering";
+	this.d3Data = [
+		{name: 'Greg', score: 98},
+		{name: 'Ari', score: 96},
+		{name: 'Q', score: 75},
+		{name: 'Loser', score: 48}
+	]
+
 	// $http({
 	// 	method: 'GET',
 	// 	url: './assets/dataset/home_office_air_travel_data_2011.csv'
