@@ -12,6 +12,8 @@ angular.module('myApp.d3Directives', ['d3'])
       // Add d3 code in link property
       link: function(scope, element, attributes) {
         // Call d3Service to access library
+        console.log('this is scope data')
+        console.log(scope.data)
         d3Service.d3().then(function(d3) {
           console.log('D3 INJECTED');
 
@@ -26,25 +28,21 @@ angular.module('myApp.d3Directives', ['d3'])
           var barPadding  = parseInt(attributes.barPadding) || 5;
 
           // Define browser resize event to check for window size changes for re-rendering
-          // $window.onresize = function() {
-          //   scope.$apply();
-          // };
+          $window.onresize = function() {
+            scope.$apply();
+          };
 
           // Define watcher to check size of directive parent element for re-rendering
-          // scope.$watch(function() {
-          //   return angular.element($window)[0].innerWidth;
-          // }, function() {
-          //   scope.render(scope.data);
-          // });
+          scope.$watch(function() {
+            return angular.element($window)[0].innerWidth;
+          }, function() {
+            scope.render(scope.data);
+          });
 
           // Define watcher to check input data changes for re-rendering
           scope.$watch('data', function(newValues, oldValues) {
             return scope.render(newValues);
           }, true);
-
-
-
-
 
           // Define render function to apply changes
           scope.render = function(data) {
@@ -61,7 +59,7 @@ angular.module('myApp.d3Directives', ['d3'])
               // Setup multicolor support
               // define adaptive horizonal scale based on data values
               var width         = d3.select(element[0]).node().offsetWidth - margin;
-              var height        = scope.data.length * (barHeight + barPadding);
+              var height        = data.length * (barHeight + barPadding);
               var barDuration   = 1000;
               var textDuration  = 400;
               var color         = d3.scaleOrdinal(d3.schemeCategory20);

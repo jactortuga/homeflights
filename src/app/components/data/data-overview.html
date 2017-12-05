@@ -8,13 +8,13 @@
 	<pie-chart data="'Departure'"></pie-chart>
 	<pie-chart data="'Destination'"></pie-chart>
 	<pie-chart data="'Ticket_class_description'"></pie-chart> -->
-
 	<md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3" md-row-height-gt-md="1:1" md-row-height="4:3" md-gutter="8px" md-gutter-gt-sm="4px">
 
 		<md-grid-tile md-rowspan="2" md-cols="1" md-colspan-sm="2" md-colspan-md="3">
 			<!-- <d3-bar data="'Departure_2011'"></d3-bar> -->
-			<d3-bar data="dt.d3Data" on-click="dt.d3BarClick(item)"></d3-bar>
+			<d3-bar data="d3Data" on-click="dt.d3BarClick(item)"></d3-bar>
 			<md-grid-tile-footer><h3>Number of flights per month</h3></md-grid-tile-footer>
+
 		</md-grid-tile>
 <!--
 		<md-grid-tile md-rowspan="2" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
