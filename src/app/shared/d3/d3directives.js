@@ -109,9 +109,11 @@ angular.module('myApp.d3Directives', ['d3'])
                  .data(data).enter()
                  // Append text elements to svg based on data
                  .append('text')
-                 // Display text value based on data
+                 // Display text value based on data keys and values
                  .text(function(d, i) {
-                   return d.name + ': ' + d.score;
+                   var key    = d[Object.keys(d)[0]];
+                   var value  = d[Object.keys(d)[1]];
+                   return key + ': ' + value;
                  })
                  // Define color and dynamic positioning of text elements
                  .attr('fill', '#FFFFFF')
