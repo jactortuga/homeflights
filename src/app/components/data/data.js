@@ -1,7 +1,17 @@
 angular.module('myApp.data', [])
 
-.controller('dataCtrl',['$http', function($http){
+.controller('dataCtrl',['$http', function($http) {
 	this.dataText = 'This is the data component!';
+
+	this.d3BarClick = function(item) {
+		console.log('console.click')
+		console.log(item)
+		// $scope.$apply(function() {
+		// 	if (!$scope.showDetailPanel)
+		// 	$scope.showDetailPanel = true;
+		// 	$scope.detailItem = item;
+		// });
+	};
 
 	this.greeting = "Resize the page to see the re-rendering";
 	this.d3Data = [

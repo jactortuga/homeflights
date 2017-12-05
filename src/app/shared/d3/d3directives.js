@@ -4,9 +4,10 @@ angular.module('myApp.d3Directives', ['d3'])
     return {
       // Restrict directive to be element as semantically more understandable
       restrict: 'E',
-      // Define isolate scope for bi-directional data-binding
+      // Define isolate scope for bi-directional data-binding and parent execution binding
       scope: {
-        data: '='
+        data: '=',
+        onClick: '&'
       },
       // Add d3 code in link property
       link: function(scope, element, attributes) {
@@ -73,11 +74,17 @@ angular.module('myApp.d3Directives', ['d3'])
                .attr('y', function(d, i) {
                  return i * (barHeight + barPadding);
                })
+               // Fill bars with d3 color functionality
                .attr('fill', function(d) {
                  return color(d.score);
                })
+               // Define bars click to return clicked element data
+               .on('click', function(d, i) {
+                 return scope.onClick({item: d});
+               })
                .transition()
                .duration(1000)
+               // Scale bars width based on data values
                .attr('width', function(d) {
                  return xScale(d.score);
                });
