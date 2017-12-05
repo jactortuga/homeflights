@@ -1,36 +1,30 @@
 angular
-.module('myApp.data', [])
-.controller('dataCtrl',['dataParserService', '$scope', function(dataParserService, $scope) {
-  this.dataText = 'This is the data component!';
-  this.d3BarClick = function(item) {
-    console.log('console.click');
-    console.log(item);
-		// $scope.$apply(function() {
-		// 	if (!$scope.showDetailPanel)
-		// 	$scope.showDetailPanel = true;
-		// 	$scope.detailItem = item;
-		// });
-  };
+  .module('myApp.data', [])
+  .controller('dataCtrl',['dataParserService', '$scope', function(dataParserService, $scope) {
 
-  $scope.d3Data = {};
+    $scope.d3Data = {};
 
-  var getParsedData = dataParserService.getData();
-  getParsedData.then(function(data) {
-    console.log('Success [Controller]');
-    console.log(data);
+    // Get data from service and inject into view
+    // Filter out low value elements from selected returned objects
+    var getParsedData = dataParserService.getData();
+    getParsedData.then(function(data) {
+      $scope.d3Data = {
+        departureMonths: data.Departure_2011,
+        departureLocations: data.Departure,
+        arrivalLocations: data.Destination,
+        directorate: data.Directorate.filter(function(obj) {
+          return obj.value >= 100;
+        }),
+        airlines: data.Supplier_name.filter(function(obj) {
+          return obj.value >= 20;
+        }),
+        ticketClasses: data.Ticket_class_description,
+        farePrices: data.Paid_fare
+      };
+    });
 
-    $scope.d3Data = {
-      departureMonths: data.Departure_2011,
-      departureLocations: data.Departure,
-      arrivalLocations: data.Destination,
-      directorate: data.Directorate.filter(function(obj) {
-        return obj.value >= 100;
-      }),
-      airlines: data.Supplier_name.filter(function(obj) {
-        return obj.value >= 20;
-      }),
-      farePrices: data.Paid_fare,
-      ticketClasses: data.Ticket_class_description
+    // TODO: Define 3d bar chart click functionality for filtering purposes
+    this.d3BarClick = function(item) {
+      console.log('Hello Panasser');
     };
-  });
-}]);
+  }]);

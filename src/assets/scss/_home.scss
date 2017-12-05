@@ -10,7 +10,6 @@
   padding-top: 50px;
   position: relative;
 
-
   .hm-section {
     margin: 0 auto;
     max-width: 500px;
@@ -20,14 +19,12 @@
     z-index: 1;
   }
 
-
   .hm-title {
     color: $white;
     font-family: 'Ubuntu', sans-serif;
     font-size: 60px;
     margin: 0 auto 20px auto;
   }
-
 
   d3-plane {
     animation: scale-toggle 15s infinite;
@@ -57,12 +54,10 @@
     }
   }
 
-
   .hm-description {
     color: $white;
     font-family: 'Ubuntu', sans-serif;
   }
-
 
   .hd-button {
     background-color: $white;
@@ -84,7 +79,6 @@
     right: 0;
     text-align: center;
   }
-
 
   .hm-bar {
     bottom: 0;

@@ -1,32 +1,35 @@
+<!-- DATA OVERVIEW WRAPPER -->
 <div ng-controller="dataCtrl as dt" class="dt-wrapper">
+	<!-- DATA OVERVIEW MATERIAL GRID -->
 	<md-grid-list md-cols="1" md-cols-sm="1" md-cols-md="3" md-cols-gt-md="3" md-row-height-gt-md="1:1" md-row-height="4:3" md-gutter="8px" md-gutter-gt-sm="4px">
 
-		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="2" md-rowspan-md="2" md-colspan="2" md-colspan-sm="1">
+		<!-- DATA OVERVIEW MATERIAL GRID ELEMENTS -->
+		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-xs="2" md-rowspan-sm="2" md-rowspan-md="2" md-colspan="2" md-colspan-xs="1" md-colspan-sm="1">
 			<d3-bar data="d3Data.departureMonths" on-click="dt.d3BarClick(item)"></d3-bar>
 			<md-grid-tile-footer><h3>Number of flights per month</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
-		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-sm="1">
+		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-xs="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-xs="1" md-colspan-sm="1">
 			<d3-pie data="d3Data.arrivalLocations"></d3-pie>
 			<md-grid-tile-footer><h3>Arrival locations</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
-		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-sm="1">
+		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-xs="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-xs="1" md-colspan-sm="1">
 			<d3-pie data="d3Data.departureLocations"></d3-pie>
 			<md-grid-tile-footer><h3>Departure locations</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
-		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="2" md-rowspan-md="2" md-colspan="2" md-colspan-sm="1">
+		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-xs="2" md-rowspan-sm="2" md-rowspan-md="2" md-colspan="2" md-colspan-xs="1" md-colspan-sm="1">
 			<d3-bar data="d3Data.directorate" on-click="dt.d3BarClick(item)"></d3-bar>
 			<md-grid-tile-footer><h3>Number of flights per air carrier</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
-		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="2" md-rowspan-md="2" md-colspan="2" md-colspan-sm="1">
+		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-xs="2" md-rowspan-sm="2" md-rowspan-md="2" md-colspan="2" md-colspan-xs="1" md-colspan-sm="1">
 			<d3-bar data="d3Data.airlines" on-click="dt.d3BarClick(item)"></d3-bar>
 			<md-grid-tile-footer><h3>Number of flights per directorate</h3></md-grid-tile-footer>
 		</md-grid-tile>
 
-		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-sm="1">
+		<md-grid-tile class="dt-grid-tile" md-rowspan="1" md-rowspan-xs="1" md-rowspan-sm="1" md-rowspan-md="2" md-colspan="1" md-colspan-xs="1" md-colspan-sm="1">
 			<d3-pie data="d3Data.ticketClasses"></d3-pie>
 			<md-grid-tile-footer><h3>Types of ticket class</h3></md-grid-tile-footer>
 		</md-grid-tile>

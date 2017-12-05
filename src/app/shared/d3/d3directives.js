@@ -15,7 +15,6 @@ angular
       link: function(scope, element, attributes) {
         // Call d3Service to access library
         d3Service.d3().then(function(d3) {
-          console.log('D3 BAR INJECTED');
 
           // Append responsive svg to directive element
           var svg = d3.select(element[0])

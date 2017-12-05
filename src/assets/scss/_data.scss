@@ -1,9 +1,9 @@
 @import 'variables';
 
 .dt-wrapper {
+  background-color: $grey;
   min-height: calc(100vh - 80px);
   padding-top: 80px;
-  background-color: $grey;
 
   .dt-grid-tile {
     overflow: hidden;
@@ -17,9 +17,9 @@
     width: 85%;
 
     .tooltip {
-      background: #eee;
-      box-shadow: 0 0 5px #999999;
-      color: #333;
+      background: $medium-grey;
+      box-shadow: 0 0 5px $dark-grey;
+      color: $black;
       display: none;
       font-size: 12px;
       left: 130px;
@@ -40,7 +40,7 @@
       stroke-width: 2;
 
       &.disabled {
-        fill: #ece9e6 !important;
+        fill: $grey !important;
       }
     }
 
@@ -50,7 +50,7 @@
     }
 
     circle {
-      stroke: #333;
+      stroke: $black;
       stroke-width: 1;
     }
   }

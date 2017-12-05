@@ -11,12 +11,10 @@
     min-height: 0;
   }
 
-
   .hd-primary {
     height: 50px;
     min-height: 0;
   }
-
 
   .hd-secondary {
     border-top: 1px solid $light-grey;
@@ -40,11 +38,9 @@
     }
   }
 
-
   .hd-navbar {
     height: 100%;
   }
-
 
   .hd-sublink {
     color: $black;
@@ -66,14 +62,12 @@
     }
   }
 
-
   .hd-title {
     color: $black;
     cursor: pointer;
     font-family: 'Ubuntu', sans-serif;
     margin-right: 25px;
   }
-
 
   .hd-button {
     color: $black;
@@ -105,7 +99,6 @@
       width: 100%;
     }
   }
-
 
   @media screen and (max-width: 600px) {
     .hd-github {
