@@ -79964,12 +79964,17 @@ angular
   getParsedData.then(function(data) {
     console.log('Success [Controller]');
     console.log(data);
+
     $scope.d3Data = {
       departureMonths: data.Departure_2011,
       departureLocations: data.Departure,
       arrivalLocations: data.Destination,
-      directorate: data.Directorate,
-      airlines: data.Supplier_name,
+      directorate: data.Directorate.filter(function(obj) {
+        return obj.score >= 100;
+      }),
+      airlines: data.Supplier_name.filter(function(obj) {
+        return obj.score >= 100;
+      }),
       farePrices: data.Paid_fare,
       ticketClasses: data.Ticket_class_description
     };
