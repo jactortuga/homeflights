@@ -79958,18 +79958,22 @@ angular
 		// });
   };
 
+  $scope.d3Data = {};
+
   var getParsedData = dataParserService.getData();
   getParsedData.then(function(data) {
-		console.log(data.Departure_2011)
-		$scope.d3Data = data.Departure_2011;
-	})
-
-  // this.d3Data = [
-	// 	{name: 'Greg', score: 98},
-	// 	{name: 'Ari', score: 96},
-	// 	{name: 'Q', score: 75},
-	// 	{name: 'Loser', score: 48}
-  // ];
+    console.log('Success [Controller]');
+    console.log(data);
+    $scope.d3Data = {
+      departureMonths: data.Departure_2011,
+      departureLocations: data.Departure,
+      arrivalLocations: data.Destination,
+      directorate: data.Directorate,
+      airlines: data.Supplier_name,
+      farePrices: data.Paid_fare,
+      ticketClasses: data.Ticket_class_description
+    };
+  });
 }]);
 
 },{}],13:[function(require,module,exports){
@@ -80564,7 +80568,7 @@ angular
     getData: function() {
       return $http.get('./assets/dataset/home_office_air_travel_data_2011.csv')
         .then(function(response) {
-          console.log('Success');
+          console.log('Success [Service]');
           console.log(response);
           //return data when promise resolved
           //that would help you to continue promise chain.
@@ -80631,7 +80635,7 @@ angular
 
           return dataFinal;
         }, function errorCallback(error) {
-          console.log('Error');
+          console.log('Error [Service]');
           console.log(error);
         });
     }

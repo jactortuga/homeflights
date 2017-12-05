@@ -5,7 +5,7 @@ angular
     getData: function() {
       return $http.get('./assets/dataset/home_office_air_travel_data_2011.csv')
         .then(function(response) {
-          console.log('Success');
+          console.log('Success [Service]');
           console.log(response);
           //return data when promise resolved
           //that would help you to continue promise chain.
@@ -72,7 +72,7 @@ angular
 
           return dataFinal;
         }, function errorCallback(error) {
-          console.log('Error');
+          console.log('Error [Service]');
           console.log(error);
         });
     }

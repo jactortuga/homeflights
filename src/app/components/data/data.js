@@ -12,16 +12,20 @@ angular
 		// });
   };
 
+  $scope.d3Data = {};
+
   var getParsedData = dataParserService.getData();
   getParsedData.then(function(data) {
-		console.log(data.Departure_2011)
-		$scope.d3Data = data.Departure_2011;
-	})
-
-  // this.d3Data = [
-	// 	{name: 'Greg', score: 98},
-	// 	{name: 'Ari', score: 96},
-	// 	{name: 'Q', score: 75},
-	// 	{name: 'Loser', score: 48}
-  // ];
+    console.log('Success [Controller]');
+    console.log(data);
+    $scope.d3Data = {
+      departureMonths: data.Departure_2011,
+      departureLocations: data.Departure,
+      arrivalLocations: data.Destination,
+      directorate: data.Directorate,
+      airlines: data.Supplier_name,
+      farePrices: data.Paid_fare,
+      ticketClasses: data.Ticket_class_description
+    };
+  });
 }]);
