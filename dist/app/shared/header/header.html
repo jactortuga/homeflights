@@ -1,0 +1,16 @@
+<md-toolbar class="md-primary hd-wrapper" ng-controller="headerCtrl as hd">
+	<!-- PRIMARY GLOBAL NAVBAR -->
+	<div class="md-toolbar-tools hd-primary">
+		<h1 class="hd-title" ui-sref="home">HomeFlights</h1>
+		<md-button class="hd-button" ui-sref="about" ui-sref-active="hd-active">About</md-button>
+		<md-button class="hd-button" ui-sref="data.overview" ng-class="{ 'hd-active': hd.isDataView }">Data</md-button>
+		<d3git class="hd-github" ng-click="hd.openGithubLink()"></d3git>
+	</div>
+	<!-- SECONDARY DATA NAVBAR -->
+	<md-content class="md-padding hd-secondary" ng-show="hd.isDataView">
+    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" class="hd-navbar">
+			<md-nav-item md-nav-sref="data.overview" ui-sref-active="hd-active" class="hd-sublink">Overview</md-nav-item>
+			<md-nav-item md-nav-sref="data.costs" ui-sref-active="hd-active" class="hd-sublink">Costs</md-nav-item>
+    </md-nav-bar>
+  </md-content>
+</md-toolbar>

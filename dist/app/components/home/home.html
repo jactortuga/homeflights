@@ -1,0 +1,16 @@
+<div ui-view="header"></div>
+<!-- HOME WRAPPER -->
+<div ng-controller="homeCtrl as hm" class="hm-wrapper">
+	<!-- HOME INFO SECTION -->
+	<section class="hm-section">
+		<h1 class="hm-title" ng-bind="hm.title"></h1>
+		<p class="hm-description" ng-bind="hm.description"></p>
+		<md-button class="hd-button" ui-sref="data.overview">{{ hm.action }}</md-button>
+		<!-- D3 PLANE LOGO -->
+		<d3-plane></d3-plane>
+	</section>
+	<!-- SITE CREDITS -->
+	<p class="hm-credits" ng-bind="hm.credits"></p>
+	<!-- HOME MATERIAL BAR -->
+	<md-progress-linear md-mode="indeterminate" class="hm-bar"></md-progress-linear>
+</div>
