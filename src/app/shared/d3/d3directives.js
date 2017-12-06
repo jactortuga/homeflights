@@ -190,7 +190,7 @@ angular
               var donutWidth      = radius / 3;
               var legendRectSize  = 20;
               var legendSpacing   = 5;
-              var color           = d3.scaleOrdinal(d3.schemeCategory20);
+              var color           = d3.scaleOrdinal(d3.schemeCategory20c);
 
               // Apply responsive properties to svg
               svg.attr('width', width)

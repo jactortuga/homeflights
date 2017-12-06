@@ -79904,7 +79904,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	// Data State
   .state('data', {
     url: '/data',
-    cache: false,
     abstract: true,
     views: {
       '': {
@@ -79931,7 +79930,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
-	
+
 });
 
 },{"./components/about/about.js":11,"./components/data/data.js":12,"./components/home/home.js":13,"./shared/d3/d3directives.js":14,"./shared/d3/d3service.js":15,"./shared/data/dataparserservice.js":16,"./shared/header/header.js":17,"angular":9,"angular-animate":2,"angular-aria":4,"angular-material":6,"angular-ui-router":7}],11:[function(require,module,exports){
@@ -79940,7 +79939,7 @@ angular
   .controller('aboutCtrl',[function(){
     this.title              = 'About';
     this.descriptionProject = 'HomeFlights is an ongoing digital project that aims at easing the task of tracking flights information and expenses of the UK Home Office and its agencies through data visualisation. The goal is ultimately to make large amounts of data more understandable through different types of interactive charts and graphs.';
-    this.descriptionData    = 'The data presented on this site relates to 2011. It has been published by UK Home Office and it is licensed under Open Government Licence.';
+    this.descriptionData    = 'The data presented on this site relates to 2011. It has been published by the UK Home Office and it is licensed under Open Government Licence.';
     this.descriptionInfo    = 'The site has been built using AngularJS, AngularJS Material, D3 and SCSS.';
   }]);
 
@@ -79957,14 +79956,23 @@ angular
     getParsedData.then(function(data) {
       $scope.d3Data = {
         departureMonths: data.Departure_2011,
-        departureLocations: data.Departure,
-        arrivalLocations: data.Destination,
+        departureMonthsTop: data.Departure_2011.filter(function(obj) {
+          return obj.value >= 500;
+        }),
         directorate: data.Directorate.filter(function(obj) {
           return obj.value >= 100;
+        }),
+        directorateTop: data.Directorate.filter(function(obj) {
+          return obj.value >= 250;
         }),
         airlines: data.Supplier_name.filter(function(obj) {
           return obj.value >= 20;
         }),
+        airlinesTop: data.Supplier_name.filter(function(obj) {
+          return obj.value >= 60;
+        }),
+        departureLocations: data.Departure,
+        arrivalLocations: data.Destination,
         ticketClasses: data.Ticket_class_description,
         farePrices: data.Paid_fare
       };
@@ -80179,7 +80187,7 @@ angular
               var donutWidth      = radius / 3;
               var legendRectSize  = 20;
               var legendSpacing   = 5;
-              var color           = d3.scaleOrdinal(d3.schemeCategory20);
+              var color           = d3.scaleOrdinal(d3.schemeCategory20c);
 
               // Apply responsive properties to svg
               svg.attr('width', width)

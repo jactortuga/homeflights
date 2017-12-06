@@ -10,14 +10,23 @@ angular
     getParsedData.then(function(data) {
       $scope.d3Data = {
         departureMonths: data.Departure_2011,
-        departureLocations: data.Departure,
-        arrivalLocations: data.Destination,
+        departureMonthsTop: data.Departure_2011.filter(function(obj) {
+          return obj.value >= 500;
+        }),
         directorate: data.Directorate.filter(function(obj) {
           return obj.value >= 100;
+        }),
+        directorateTop: data.Directorate.filter(function(obj) {
+          return obj.value >= 250;
         }),
         airlines: data.Supplier_name.filter(function(obj) {
           return obj.value >= 20;
         }),
+        airlinesTop: data.Supplier_name.filter(function(obj) {
+          return obj.value >= 60;
+        }),
+        departureLocations: data.Departure,
+        arrivalLocations: data.Destination,
         ticketClasses: data.Ticket_class_description,
         farePrices: data.Paid_fare
       };

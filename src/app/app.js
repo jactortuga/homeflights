@@ -46,7 +46,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	// Data State
   .state('data', {
     url: '/data',
-    cache: false,
     abstract: true,
     views: {
       '': {
@@ -73,5 +72,5 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
-	
+
 });
